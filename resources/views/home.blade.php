@@ -47,7 +47,24 @@
 @stop
 
 @section('content')
+    @foreach($clientes as $cliente)
 
+    <div class="col-md-3">
+        <div class="box box-widget widget-user-2">
+            <div class="widget-user-header">
+                <h4 class="text-center">{{$cliente->name}}</h4>
+            </div>
+            <div class="box-footer no-padding">
+                <ul class="nav nav-stacked">
+                    <li>Moeda Principal<span class="pull-right badge bg-blue">{{$cliente->coin_name}}</span></li>
+                    <li>Poder de mineração<span class="pull-right badge bg-aqua">{{$cliente->power_miner}} M/Hs</span></li>
+                    <li>Saldo<span class="pull-right badge bg-green">{{$cliente->balance}} ETH</span></li>
+                    <li>Data:<span class="pull-right badge bg-red">{{$cliente->date_plan->diffForHumans() .' - '. $cliente->date_plan->format('d/m/Y')}}</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    @endforeach
 @stop
 
 @section('scripts')
@@ -87,9 +104,9 @@
                     $('#preco'+coin+'').append(ValueCoin);
 
                     setTimeout(function(){
-                        var calcUSD = parseInt(ValueCoin) * parseInt(USD);
-                        $('#rs-'+coin+'').append(calcUSD);
-                    }, 1000);
+                        var calcUSD = ValueCoin * USD;
+                        $('#rs-'+coin+'').append(calcUSD.toFixed(2));
+                    }, 1500);
                 }
             });
         };

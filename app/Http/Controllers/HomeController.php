@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Clientes;
+
 
 class HomeController extends Controller
 {
@@ -23,6 +25,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+
+        $clientes = Clientes::join('moedas','moedas.id','=','clientes.coin_id')
+            ->select('clientes.*','moedas.name as coin_name')
+            ->paginate(15);
+
+        return view('home', compact('clientes'));
     }
 }

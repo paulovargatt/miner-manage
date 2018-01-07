@@ -53,3 +53,25 @@ background-color: #222d32!important;
           transform: scale(1.0);
       }
 }
+
+.nav >li {
+    position: relative;
+    display: block;
+    padding: 5px 5px;
+}
+
+.badge{
+    font-size: 13px!important;
+    font-weight: 500!important;
+    border-radius: 2px;
+    box-shadow: -1px -1px 2px #0000002e
+}
+
+.widget-user-2 .widget-user-header{
+    padding: 2px;
+}
+
+.widget-user-header{
+    background-color: #222d32;
+    color: #fff;
+}
