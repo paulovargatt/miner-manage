@@ -25,10 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-
-        $clientes = Clientes::join('moedas','moedas.id','=','clientes.coin_id')
-            ->select('clientes.*','moedas.name as coin_name')
-            ->paginate(15);
+       $clientes = Clientes::join('moedas','moedas.id','=','clientes.coin_id')
+        ->select('clientes.*','moedas.name as coin_name')
+        ->paginate(15);
 
         return view('home', compact('clientes'));
     }

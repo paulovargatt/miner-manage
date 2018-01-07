@@ -80,6 +80,18 @@
         var btc = 'bitcoin';
         var eth = 'ethereum';
 
+        GetBTCBR = function () {
+            $.ajax({
+                url: 'https://api.hgbrasil.com/finance/quotations?format=json-cors&key=f439632e',
+                method: "GET",
+                dataType: "JSON",
+                success: function (data) {
+                    BTC_BR = data.results;
+                }
+            });
+        };
+
+
         GetDolar = function () {
             $.ajax({
                 url: ApiUSD,
@@ -110,7 +122,7 @@
                     setTimeout(function () {
                         var calcUSD = ValueCoin * USD;
                         $('#rs-' + coin + '').append(calcUSD.toFixed(2));
-                    }, 1500);
+                    }, 3500);
                 }
             });
         };
