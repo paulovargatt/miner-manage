@@ -75,3 +75,18 @@ background-color: #222d32!important;
     background-color: #222d32;
     color: #fff;
 }
+
+.box-widget {
+    border: none;
+    position: relative;
+    box-shadow: 5px 7px 2px #00000014;
+}
+
+.content {
+    min-height: 250px;
+    padding: 0px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 0px;
+    padding-right: 0px;
+}
