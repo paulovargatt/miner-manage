@@ -27,7 +27,7 @@ class HomeController extends Controller
     {
        $clientes = Clientes::join('moedas','moedas.id','=','clientes.coin_id')
         ->select('clientes.*','moedas.name as coin_name')
-        ->paginate(15);
+        ->paginate(16);
 
         return view('home', compact('clientes'));
     }

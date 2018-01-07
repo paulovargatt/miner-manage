@@ -47,9 +47,8 @@
 @stop
 
 @section('content')
-    <h5 class="box-title" style="margin-left: 17px;font-size: 1.3em;"><i class="fa fa-users"></i> Clientes:</h5>
+    {{--<h5 class="box-title" style="margin-left: 17px;font-size: 1.3em;"><i class="fa fa-users"></i> Clientes:</h5>--}}
     @foreach($clientes as $cliente)
-
         <div class="col-md-3">
             <div class="box box-widget widget-user-2">
                 <a href="cliente/{{$cliente->id}}">
@@ -71,6 +70,9 @@
             </div>
         </div>
     @endforeach
+
+    <div class="clear-fix"></div>
+    {{ $clientes->links() }}
 @stop
 
 @section('scripts')

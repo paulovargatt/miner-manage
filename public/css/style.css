@@ -90,3 +90,22 @@ background-color: #222d32!important;
     padding-left: 0px;
     padding-right: 0px;
 }
+
+#loader{
+    left: 45.5%;
+    top: 21px;
+    position: absolute;
+}
+
+.nav-tabs-custom > ul > li{
+    padding: 1px 0px;
+}
+
+.clear-fix{
+    clear: both!important;
+}
+
+.pagination {
+    margin: 7px 16px;
+    border-radius: 2px!important;
+}

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Clientes;
+use App\Moedas;
 use Illuminate\Http\Request;
 
 class ClientesController extends Controller
@@ -15,6 +16,15 @@ class ClientesController extends Controller
             ->first();
          //   dd($cliente);
 
-        return view('clientes.index', compact('cliente'));
+        $coin = Moedas::all();
+
+        return view('clientes.index', compact('cliente','coin'));
+    }
+
+
+    public function update(Request $request, $id){
+        $cliente = Clientes::find($id);
+        $cliente->coin_id = $request->get('plan');
+        $cliente->update();
     }
 }

@@ -18,4 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+/*Clientes*/
 Route::get('/cliente/{id}', 'ClientesController@index')->name('cliente');
+Route::post('/cliente/update-cliente/{id}', 'ClientesController@update');
