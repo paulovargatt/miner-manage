@@ -12,7 +12,7 @@
             <span class="info-box-icon bg-green"><i class="fa fa-usd"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text">Saldo</span>
-                <span class="info-box-number">{{$cliente->balance}} Eth</span>
+                <span class="info-box-number balance_ls">{{$cliente->balance}} Eth</span>
             </div>
         </div>
     </div>
@@ -22,7 +22,7 @@
             <span class="info-box-icon bg-blue"><i class="fa fa-tasks"></i></span>
             <div class="info-box-content ">
                 <span class="info-box-text">Poder de Mineração</span>
-                <span class="info-box-number minerpower">{{$cliente->power_miner}} {{$cliente->coin_name == 'Ethereum' ? 'MH/s' : 'ZH/s'}}</span>
+                <span class="info-box-number minerpower">{{$cliente->power_miner}} {{$cliente->coin_name == 'Ethereum' ? 'MH/s' : ''}}</span>
             </div>
         </div>
     </div>
@@ -62,6 +62,14 @@
                 <li><h4 style="margin: 10px 71px;"><b>{{$cliente->name}}</b></h4></li>
                 <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Movimentações</a></li>
                 <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Editar Dados</a></li>
+                <li style="width: 240px;margin: -8px;">
+                    <div class="input-group margin">
+                        <input type="text" id="balance" class="form-control" value="0.000000">
+                        <span class="input-group-btn">
+                      <button type="button" class="btn btn-success btn-flat" id="plus-saldo">Aumentar Saldo </button>
+                    </span>
+                    </div>
+                </li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1">
@@ -81,9 +89,13 @@
 
 
 @section('scripts')
-<script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.13/jquery.mask.min.js"></script>
 
-    $(document).on('change', function () {
+    <script>
+
+    $('#balance').mask('0.000000');
+
+    $('.content-header').on('change', function () {
         var plan = $('#plan option:selected').attr('id');
         $.ajax({
             url: 'update-cliente/{{$cliente->id}}',
@@ -101,6 +113,28 @@
                 $('.minerpower').load(' .minerpower');
             }
         });
+    });
+
+
+    $(document).on('click','#plus-saldo', function () {
+        var balance = $('#balance').val();
+        $.ajax({
+            url: 'update-saldo-cliente/{{$cliente->id}}',
+            method: "POST",
+            dataType: "JSON",
+            data:{
+                "_token": "{{ csrf_token() }}",
+                "balance" : balance
+            },
+            beforeSend: function () {
+                $('#loader').fadeIn();
+            },
+            complete: function () {
+                $('#loader').fadeOut();
+                $('.balance_ls').load(' .balance_ls');
+            }
+        });
+
     });
 
 

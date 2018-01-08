@@ -5,7 +5,7 @@
 @section('content_header')
     <div class="row">
         <div class="col-lg-6 col-xs-6">
-            <div class="small-box bg-yellow">
+            <div class="small-box bg-blue">
                 <div class="inner">
                     <h3 id="precobitcoin">
                         <div id="loaderbitcoin" style="display: none; position: absolute;left: 40px;">

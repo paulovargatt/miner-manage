@@ -27,4 +27,10 @@ class ClientesController extends Controller
         $cliente->coin_id = $request->get('plan');
         $cliente->update();
     }
+
+    public function updateSaldo(Request $request, $id){
+        $cliente = Clientes::find($id);
+        $cliente->balance = $cliente->balance += $request->get('balance');
+        $cliente->update();
+    }
 }
