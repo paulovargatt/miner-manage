@@ -113,3 +113,7 @@ background-color: #222d32!important;
 .text-red{
     color: red!important;
 }
+
+#plan{
+    cursor: pointer;
+}

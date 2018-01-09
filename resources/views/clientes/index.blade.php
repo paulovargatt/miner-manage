@@ -1,8 +1,11 @@
 @extends('adminlte::page')
 
 @section('title')
+{{$cliente->name}}
+@stop
 
-
+@section('styles')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
 @stop
 
 @section('content_header')
@@ -56,8 +59,9 @@
 @stop
 
 @section('content')
-<div class="container">
-        <div class="nav-tabs-custom" style="width: 97%">
+    <div class="clear-fix"></div>
+    <div class="container" style="width: 100%">
+        <div class="nav-tabs-custom" style="width: 100%">
             <ul class="nav nav-tabs">
                 <li><h4 style="margin: 10px 71px;"><b>{{$cliente->name}}</b></h4></li>
                 <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Movimentações</a></li>
@@ -91,7 +95,7 @@
                 </div>
             </div>
         </div>
-</div>
+    </div>
 
 
 @stop
@@ -99,6 +103,7 @@
 
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.13/jquery.mask.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap-editable/js/bootstrap-editable.min.js"></script>
 
     <script>
 
