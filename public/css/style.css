@@ -109,3 +109,7 @@ background-color: #222d32!important;
     margin: 7px 16px;
     border-radius: 2px!important;
 }
+
+.text-red{
+    color: red!important;
+}

@@ -8,11 +8,11 @@
 @section('content_header')
 <div class="row">
     <div class="col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box">
+        <div class="info-box saldo">
             <span class="info-box-icon bg-green"><i class="fa fa-usd"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text">Saldo</span>
-                <span class="info-box-number balance_ls">{{$cliente->balance}} Eth</span>
+                <span class="info-box-number balance_ls {{$cliente->balance < 0 ? 'text-red' : ''}}">{{$cliente->balance}} </span>
             </div>
         </div>
     </div>
@@ -62,12 +62,21 @@
                 <li><h4 style="margin: 10px 71px;"><b>{{$cliente->name}}</b></h4></li>
                 <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Movimentações</a></li>
                 <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Editar Dados</a></li>
-                <li style="width: 240px;margin: -8px;">
+                <li style="width: 220px;margin: -8px;">
                     <div class="input-group margin">
-                        <input type="text" id="balance" class="form-control" value="0.000000">
+                        <input type="text" id="plus-saldo" class="form-control" value="0.000000">
                         <span class="input-group-btn">
-                      <button type="button" class="btn btn-success btn-flat" id="plus-saldo">Aumentar Saldo </button>
-                    </span>
+                            <button type="button" class="btn btn-success btn-flat" id="btn-plus-saldo">Aumentar Saldo </button>
+                        </span>
+                    </div>
+                </li>
+
+                <li style="width: 185px;margin: -8px 15px">
+                    <div class="input-group margin">
+                        <input type="text" id="pagar" class="form-control" value="0.000000">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-warning btn-flat" id="btn-pagar">Pagar </button>
+                        </span>
                     </div>
                 </li>
             </ul>
@@ -93,7 +102,10 @@
 
     <script>
 
-    $('#balance').mask('0.000000');
+    var poweMiner = "{{$cliente->power_miner}}";
+
+    $('#plus-saldo').mask('0.000000');
+    $('#pagar').mask('0.000000');
 
     $('.content-header').on('change', function () {
         var plan = $('#plan option:selected').attr('id');
@@ -116,15 +128,15 @@
     });
 
 
-    $(document).on('click','#plus-saldo', function () {
-        var balance = $('#balance').val();
+    $(document).on('click','#btn-plus-saldo', function () {
+        var saldo = $('#plus-saldo').val();
         $.ajax({
             url: 'update-saldo-cliente/{{$cliente->id}}',
             method: "POST",
             dataType: "JSON",
             data:{
                 "_token": "{{ csrf_token() }}",
-                "balance" : balance
+                "plus_saldo" : saldo
             },
             beforeSend: function () {
                 $('#loader').fadeIn();
@@ -132,16 +144,70 @@
             complete: function () {
                 $('#loader').fadeOut();
                 $('.balance_ls').load(' .balance_ls');
+                var valor = parseInt($('.balance_ls').text());
+                tot = valor + pagar;
+                if (tot < 0 ){
+                    $('.balance_ls').css('color','red')
+                } else {
+                    $('.balance_ls').css('color','#333333')
+                    $('.balance_ls').removeClass('text-red')
+                }
+            }
+        });
+    });
+
+    $(document).on('click','#btn-pagar', function () {
+        var pagar = $('#pagar').val();
+        $.ajax({
+            url: 'update-saldo-cliente/{{$cliente->id}}',
+            method: "POST",
+            dataType: "JSON",
+            data:{
+                "_token": "{{ csrf_token() }}",
+                "pagar" : pagar
+            },
+            beforeSend: function () {
+                $('#loader').fadeIn();
+            },
+            complete: function () {
+                $('#loader').fadeOut();
+                $('.balance_ls').load(' .balance_ls');
+                var valor = parseInt($('.balance_ls').text());
+                tot = valor - pagar;
+                if (tot < 0 ){
+                    $('.balance_ls').css('color','red')
+                } else {
+                    $('.balance_ls').css('color','#333333')
+                }
+            }
+        });
+    });
+
+
+    function MinerCalc() {
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: '/json-miner',
+            success: function (data) {
+                var netHash = data.nethash;
+                var hashPower = (poweMiner * 1e6) / netHash;
+                var blockTime = data.block_time;
+                var blockReward = data.block_reward24;
+                var blocksPerMin = 60 / blockTime;
+                var coinPermine = blocksPerMin * blockReward;
+                var ganho = hashPower * coinPermine;
+                var ganhoDia = ganho * 60 * 24;
+                var resulGanho = ganhoDia.toFixed(6);
+                console.log(resulGanho);
+                $('#plus-saldo').val(resulGanho);
             }
         });
 
-    });
+    }
+    MinerCalc();
 
 
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-</script>
+
+    </script>
 @endsection

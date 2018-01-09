@@ -18,7 +18,7 @@ class CreateClientesTable extends Migration
             $table->string('name');
             $table->integer('coin_id')->unsigned();
             $table->foreign('coin_id')->references('id')->on('moedas')->onDelete('cascade');
-            $table->integer('power_miner')->nullable();
+            $table->double('power_miner',10,2);
             $table->decimal('balance',16,6);
             $table->text('desc');
             $table->timestamp('date_plan');

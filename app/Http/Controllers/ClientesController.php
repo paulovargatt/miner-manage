@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Clientes;
 use App\Moedas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class ClientesController extends Controller
 {
@@ -14,7 +15,6 @@ class ClientesController extends Controller
             ->join('moedas','moedas.id','=','clientes.coin_id')
             ->select('clientes.*','moedas.name as coin_name')
             ->first();
-         //   dd($cliente);
 
         $coin = Moedas::all();
 
@@ -30,7 +30,24 @@ class ClientesController extends Controller
 
     public function updateSaldo(Request $request, $id){
         $cliente = Clientes::find($id);
-        $cliente->balance = $cliente->balance += $request->get('balance');
-        $cliente->update();
+        if($request->plus_saldo) {
+            $cliente->balance += $request->get('plus_saldo');
+            $cliente->update();
+        }
+        else{
+            $cliente->balance  -= $request->get('pagar');
+            $cliente->update();
+        }
+
+
+
     }
+
+
+    public function getJsonMiner(){
+        $url = urldecode("https://whattomine.com/coins/151.json");
+        $json = json_decode(file_get_contents($url), true);
+        return $json;
+    }
+
 }

@@ -17,9 +17,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware' => ['cors']], function () {
+    Route::get('/home', 'HomeController@index')->name('home');
 
-/*Clientes*/
-Route::get('/cliente/{id}', 'ClientesController@index')->name('cliente');
-Route::post('/cliente/update-cliente/{id}', 'ClientesController@update');
-Route::post('/cliente/update-saldo-cliente/{id}', 'ClientesController@updateSaldo');
+    /*Clientes*/
+    Route::get('/cliente/{id}', 'ClientesController@index')->name('cliente');
+    Route::post('/cliente/update-cliente/{id}', 'ClientesController@update');
+    Route::post('/cliente/update-saldo-cliente/{id}', 'ClientesController@updateSaldo');
+    /*Miner*/
+    Route::get('json-miner', 'ClientesController@getJsonMiner');
+
+});
