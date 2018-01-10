@@ -132,5 +132,8 @@ input#datepicker{
     width: 114px;
 }
 .td_desc{
-    font-size: 1.2em;
+    font-size: 1.1em;
+}
+.text-green,.text-red, .text-blue,.text-navy{
+    font-weight: bold;
 }

@@ -21,7 +21,7 @@ class CreateClientesTable extends Migration
             $table->double('power_miner',10,2);
             $table->decimal('balance',16,6);
             $table->text('desc');
-            $table->timestamp('date_plan');
+            $table->timestamp('date_plan')->nullable();
             $table->timestamps();
         });
     }

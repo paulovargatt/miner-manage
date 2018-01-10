@@ -167,9 +167,7 @@
                 success: function (data) {
                     toastr.success('' + data.msg + ' :)');
                     $('#loader').fadeOut();
-                    setTimeout(function () {
-                        window.location.reload()
-                    }, 1000);
+                    Atualiza()
                 },
                 error: function () {
                     toastr.warning('erro ao salvar');
@@ -195,8 +193,7 @@
                 complete: function () {
                     $('#loader').fadeOut();
                     $('.balance_ls').load(' .balance_ls');
-
-                    movimentos(saldoCli,saldo, clienteId);
+                    movimentos(saldo, clienteId);
 
                     var valor = parseInt($('.balance_ls').text());
                     tot = valor + pagar;
@@ -233,6 +230,8 @@
                     } else {
                         $('.balance_ls').css('color', '#333333')
                     }
+                    movimentoPagamento(saldoCli,pagar,clienteId);
+                    Atualiza()
                 }
             });
         });
@@ -260,10 +259,9 @@
                     $('#plus-saldo').val(resulGanho);
                 }
             });
+        }MinerCalc();
 
-        };MinerCalc();
-
-        function movimentos(saldoAntigo, saldoAtual,cliente) {
+        function movimentos(saldoAtual,cliente) {
             var calc = parseFloat(saldoCli) + parseFloat(saldoAtual);
             console.log(calc);
             $.ajax({
@@ -274,6 +272,31 @@
                     "_token": "{{ csrf_token() }}",
                     "saldoAnt": saldoCli,
                     "newSaldo": saldoAtual,
+                    "total": calc.toFixed(6),
+                    "poweMiner": poweMiner
+                },
+                beforeSend: function () {
+                    $('#loader').fadeIn();
+                },
+                success: function (data) {
+                    toastr.success('' + data.msg + ' :)');
+                    $('#loader').fadeOut();
+                    Atualiza()
+                }
+            });
+        }
+
+        function movimentoPagamento(saldoAtual,pagamento, cliente) {
+            var calc = parseFloat(saldoAtual) - parseFloat(pagamento);
+            console.log(calc);
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: 'movimenta-pagamento/'+cliente,
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "saldoAnt": saldoCli,
+                    "pagamento": pagamento,
                     "total": calc.toFixed(6)
                 },
                 beforeSend: function () {
@@ -282,11 +305,18 @@
                 success: function (data) {
                     toastr.success('' + data.msg + ' :)');
                     $('#loader').fadeOut();
+                    Atualiza()
                 }
             });
         }
 
 
+
+        function Atualiza() {
+            setTimeout(function () {
+                window.location.reload()
+            }, 1000);
+        }
 
     </script>
 @endsection

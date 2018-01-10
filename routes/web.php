@@ -26,6 +26,7 @@ Route::group(['middleware' => ['cors']], function () {
     Route::post('/cliente/update-saldo-cliente/{id}', 'ClientesController@updateSaldo');
     /*Movimentacao*/
     Route::post('/cliente/movimenta/{id}', 'MovimentacaoController@movimentaCliente');
+    Route::post('/cliente/movimenta-pagamento/{id}', 'MovimentacaoController@movimentaPagamentoCliente');
 
     /*Miner*/
     Route::get('json-miner', 'ClientesController@getJsonMiner');

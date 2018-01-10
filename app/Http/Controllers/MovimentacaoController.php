@@ -13,14 +13,36 @@ class MovimentacaoController extends Controller
         $saldoAnterior =  $request->get('saldoAnt');
         $incSaldo = $request->get('newSaldo');
         $total = $request->get('total');
-
+        $power = $request->get('poweMiner');
 
         $movimentacao = new Movimentacao();
         $movimentacao->cliente_id = $id;
         $movimentacao->user_id = Auth::user()->id;
-        $movimentacao->descricao = 'Foram adicionados <span class="text-green">'.$incSaldo.
-            '</span> Saldo Anterior <span class="text-red">'.$saldoAnterior
-            .' </span> Novo Saldo:  <span class="text-blue">'. $total . '</span>';
+        $movimentacao->descricao =
+        'Foi minerado <span class="text-green">'.$incSaldo.'</span>
+         Poder de Mineração: <span class="text-navy">'.$power.'</span>
+         Saldo Anterior <span class="text-red">'.$saldoAnterior.' </span>
+         Novo Saldo:  <span class="text-blue">'. $total . '</span>';
+
+        $movimentacao->save();
+
+        $ret = array('status' => 'success',
+            'msg' => 'Atualizado');
+        return response()->json($ret);
+    }
+
+    public function movimentaPagamentoCliente(Request $request, $id){
+        $saldoAnterior =  $request->get('saldoAnt');
+        $pagamento = $request->get('pagamento');
+        $total = $request->get('total');
+
+        $movimentacao = new Movimentacao();
+        $movimentacao->cliente_id = $id;
+        $movimentacao->user_id = Auth::user()->id;
+        $movimentacao->descricao =
+        '<b>Pagamento Realizado</b> <span style="font-size: 1.2em" class="text-green">'.$pagamento.'</span>
+         Saldo Anterior <span class="text-blue">'.$saldoAnterior.' </span>
+         Novo Saldo:  <span class="text-red">'. $total . '</span>';
         $movimentacao->save();
 
         $ret = array('status' => 'success',

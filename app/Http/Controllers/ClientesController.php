@@ -23,6 +23,7 @@ class ClientesController extends Controller
         $cargaMovimentation = Movimentacao::where('cliente_id', $id)
                             ->join('users','users.id','movimentacaos.user_id')
                             ->select('movimentacaos.*','users.name')
+                            ->orderBy('created_at','DESC')
                             ->get();
         return view('clientes.index', compact('cliente', 'coin','cargaMovimentation'));
     }
