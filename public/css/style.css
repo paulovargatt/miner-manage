@@ -117,3 +117,20 @@ background-color: #222d32!important;
 #plan{
     cursor: pointer;
 }
+
+.input_power_miner{
+    width: 44px;
+    border: 0px;
+    border-bottom: 1px solid;
+}
+
+input#datepicker{
+    border: 0px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.4em;
+    width: 114px;
+}
+.td_desc{
+    font-size: 1.2em;
+}
