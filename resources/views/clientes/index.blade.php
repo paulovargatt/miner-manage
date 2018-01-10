@@ -245,6 +245,9 @@
                 url: '/json-miner',
                 success: function (data) {
                     var netHash = data.nethash;
+                    var dificult = data.difficulty;
+                    var dificult24 = data.difficulty24;
+                    netHash = (netHash/dificult) * dificult24;
                     var hashPower = (poweMiner * 1e6) / netHash;
                     var blockTime = data.block_time;
                     var blockReward = data.block_reward24;
