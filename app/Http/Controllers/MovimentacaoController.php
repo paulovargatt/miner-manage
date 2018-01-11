@@ -6,6 +6,7 @@ use App\Movimentacao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Expr\New_;
+use Yajra\DataTables\DataTables;
 
 class MovimentacaoController extends Controller
 {
@@ -49,4 +50,25 @@ class MovimentacaoController extends Controller
             'msg' => 'Atualizado');
         return response()->json($ret);
     }
+
+    public function jsonMovimentacoes($id){
+        $cargaMovimentation = Movimentacao::where('cliente_id', $id)
+            ->join('users','users.id','movimentacaos.user_id')
+            ->select('movimentacaos.*','users.name')
+            ->orderBy('created_at','DESC')
+            ->get();
+
+        return DataTables::of($cargaMovimentation)
+            ->addColumn('descricao', function ($cargaMovimentation) {
+                return
+                    $cargaMovimentation->descricao;
+            })
+            ->addColumn('created_at', function ($cargaMovimentation) {
+                return
+                    $cargaMovimentation->created_at->format('d/m/Y H:i');
+            })
+            ->rawColumns(['descricao','created_at'])
+            ->make(true);
+    }
+
 }

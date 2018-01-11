@@ -137,3 +137,11 @@ input#datepicker{
 .text-green,.text-red, .text-blue,.text-navy{
     font-weight: bold;
 }
+
+.input_name{
+    margin: -4px 8px;
+    font-size: 1.2em;
+    width: 261px;
+    text-align: center;
+    border: 0PX;
+}

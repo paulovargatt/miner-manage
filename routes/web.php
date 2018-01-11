@@ -22,11 +22,13 @@ Route::group(['middleware' => ['cors']], function () {
 
     /*Clientes*/
     Route::get('/cliente/{id}', 'ClientesController@index')->name('cliente');
+    Route::post('/cliente/update-desc/{id}', 'ClientesController@updateDesc');
     Route::post('/cliente/update-cliente/{id}', 'ClientesController@update');
     Route::post('/cliente/update-saldo-cliente/{id}', 'ClientesController@updateSaldo');
     /*Movimentacao*/
     Route::post('/cliente/movimenta/{id}', 'MovimentacaoController@movimentaCliente');
     Route::post('/cliente/movimenta-pagamento/{id}', 'MovimentacaoController@movimentaPagamentoCliente');
+    Route::get('/cliente/get-json-movimentacoes/{id}', 'MovimentacaoController@jsonMovimentacoes');
 
     /*Miner*/
     Route::get('json-miner', 'ClientesController@getJsonMiner');

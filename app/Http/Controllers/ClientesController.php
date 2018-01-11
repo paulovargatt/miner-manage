@@ -8,6 +8,7 @@ use App\Movimentacao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
+Use Yajra\DataTables\DataTables;
 
 class ClientesController extends Controller
 {
@@ -20,12 +21,7 @@ class ClientesController extends Controller
             ->first();
         $coin = Moedas::all();
 
-        $cargaMovimentation = Movimentacao::where('cliente_id', $id)
-                            ->join('users','users.id','movimentacaos.user_id')
-                            ->select('movimentacaos.*','users.name')
-                            ->orderBy('created_at','DESC')
-                            ->get();
-        return view('clientes.index', compact('cliente', 'coin','cargaMovimentation'));
+        return view('clientes.index', compact('cliente', 'coin'));
     }
 
 
@@ -35,9 +31,19 @@ class ClientesController extends Controller
         $cliente->coin_id = $request->get('plan');
         $cliente->power_miner = $request->get('power_miner');
         $cliente->date_plan = Carbon::createFromFormat('d/m/Y', $request->get('date'));
+        $cliente->name = $request->get('name');
         $cliente->update();
         $ret = array('status' => 'success',
             'msg' => 'Atualizado');
+        return response()->json($ret);
+    }
+
+    public function updateDesc(Request $request, $id){
+        $cliente = Clientes::find($id);
+        $cliente->desc = $request->get('notas');
+        $cliente->update();
+        $ret = array('status' => 'success',
+            'msg' => 'Bloco de Notas atualizado');
         return response()->json($ret);
     }
 

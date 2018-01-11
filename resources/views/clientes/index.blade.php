@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.8.0/skins/moono/editor.css">
 @stop
 
 @section('content_header')
@@ -68,9 +69,9 @@
     <div class="container" style="width: 100%">
         <div class="nav-tabs-custom" style="width: 100%">
             <ul class="nav nav-tabs">
-                <li><h4 style="margin: 10px 71px;"><b>{{$cliente->name}}</b></h4></li>
+                <li><h4><b><input class="input_name" value="{{$cliente->name}}" ></b></h4></li>
                 <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Movimentações</a></li>
-                <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Editar Dados</a></li>
+                <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Bloco de Notas</a></li>
                 <li style="width: 220px;margin: -8px;">
                     <div class="input-group margin">
                         <input type="text" id="plus-saldo" class="form-control" value="0.000000">
@@ -92,30 +93,25 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1">
-                    <b>Movimentações</b>
-                    <table class="table table-bordered">
-                        <tbody>
+                    <table id="movimentacoes" class="table table-bordered">
+                        <thead>
                         <tr>
-                            <th>Usuário</th>
                             <th>Descrição</th>
                             <th>Data</th>
                         </tr>
-
-                            @foreach($cargaMovimentation as $movimentacao)
-                                <tr>
-                                <td>{{$movimentacao->name}}</td>
-                                <td class="td_desc">{!! $movimentacao->descricao !!}</td>
-                                <td>{{$movimentacao->created_at->format('d/m/Y')}}</td>
-                                </tr>
-                            @endforeach
-
+                        </thead>
+                        <tbody>
 
                         </tbody>
                     </table>
                 </div>
                 <!-- /.tab-pane -->
                 <div class="tab-pane" id="tab_2">
-                    <b>Editar</b>
+                    <textarea name="editor1" class="notas textarea" id="bloco_notas" style="width: 100%; font-size: 14px; line-height: 18px;
+                    border: 1px solid rgb(221, 221, 221); padding: 10px;">
+                    {!! $cliente->desc !!}
+                    </textarea>
+                    <button class="btn btn-primary btn-bloco">Salvar</button>
                 </div>
             </div>
         </div>
@@ -129,7 +125,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.13/jquery.mask.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/locales/bootstrap-datepicker.pt-BR.min.js"></script>
+    <script src="https://cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.8.0/plugins/colorbutton/plugin.js"></script>
 
     <script>
 
@@ -146,11 +143,10 @@
         });
 
 
-        $('.content-header').on('change', function () {
+        $('.content-header, .input_name').on('change', function () {
             var plan = $('#plan option:selected').attr('id');
             var power_miner = $('.input_power_miner').val();
             var datepicker = $('#datepicker').val();
-
             $.ajax({
                 url: 'update-cliente/{{$cliente->id}}',
                 method: "POST",
@@ -159,7 +155,8 @@
                     "_token": "{{ csrf_token() }}",
                     "plan": plan,
                     "power_miner": power_miner,
-                    "date": datepicker
+                    "date": datepicker,
+                    "name": $('.input_name').val()
                 },
                 beforeSend: function () {
                     $('#loader').fadeIn();
@@ -176,8 +173,37 @@
             });
         });
 
+        $(document).on('click','.btn-bloco', function () {
+            $.ajax({
+                url: 'update-desc/{{$cliente->id}}',
+                method: "POST",
+                dataType: "JSON",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "notas": CKEDITOR.instances.bloco_notas.getData()
+                },
+                beforeSend: function () {
+                    $('#loader').fadeIn();
+                },
+                success: function (data) {
+                    toastr.success('' + data.msg + ' :)');
+                    $('#loader').fadeOut();
+                },
+                error: function () {
+                    toastr.warning('erro ao salvar');
+                    $('#loader').fadeOut();
+                }
+            });
+        });
+
 
         $(document).on('click', '#btn-plus-saldo', function () {
+            var valida = $('#plus-saldo').val().replace('.','').length;
+            if (valida < 7){
+                toastr.warning('Digite um valor Válido, exemplo 0.000000');
+                return
+            }
+
             var saldo = $('#plus-saldo').val();
             $.ajax({
                 url: 'update-saldo-cliente/{{$cliente->id}}',
@@ -208,6 +234,13 @@
         });
 
         $(document).on('click', '#btn-pagar', function () {
+
+            var valida = $('#pagar').val().replace('.','').length;
+            if (valida < 7){
+                toastr.warning('Digite um valor Válido, exemplo 0.000000');
+                return
+            }
+
             var pagar = $('#pagar').val();
             $.ajax({
                 url: 'update-saldo-cliente/{{$cliente->id}}',
@@ -230,8 +263,7 @@
                     } else {
                         $('.balance_ls').css('color', '#333333')
                     }
-                    movimentoPagamento(saldoCli,pagar,clienteId);
-                    Atualiza()
+                    movimentoPagamento(saldoCli, pagar, clienteId);
                 }
             });
         });
@@ -246,7 +278,7 @@
                     var netHash = data.nethash;
                     var dificult = data.difficulty;
                     var dificult24 = data.difficulty24;
-                    netHash = (netHash/dificult) * dificult24;
+                    netHash = (netHash / dificult) * dificult24;
                     var hashPower = (poweMiner * 1e6) / netHash;
                     var blockTime = data.block_time;
                     var blockReward = data.block_reward24;
@@ -259,18 +291,20 @@
                     $('#plus-saldo').val(resulGanho);
                 }
             });
-        }MinerCalc();
+        }
 
-        function movimentos(saldoAtual,cliente) {
-            var calc = parseFloat(saldoCli) + parseFloat(saldoAtual);
+        MinerCalc();
+
+        function movimentos(saldoAtual, cliente) {
+            var calc = parseFloat($('.balance_ls').text()) + parseFloat(saldoAtual);
             console.log(calc);
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
-                url: 'movimenta/'+cliente,
+                url: 'movimenta/' + cliente,
                 data: {
                     "_token": "{{ csrf_token() }}",
-                    "saldoAnt": saldoCli,
+                    "saldoAnt": parseFloat($('.balance_ls').text()),
                     "newSaldo": saldoAtual,
                     "total": calc.toFixed(6),
                     "poweMiner": poweMiner
@@ -281,21 +315,21 @@
                 success: function (data) {
                     toastr.success('' + data.msg + ' :)');
                     $('#loader').fadeOut();
-                    Atualiza()
+                    table.ajax.reload();
                 }
             });
         }
 
-        function movimentoPagamento(saldoAtual,pagamento, cliente) {
-            var calc = parseFloat(saldoAtual) - parseFloat(pagamento);
+        function movimentoPagamento(saldoAtual, pagamento, cliente) {
+            var calc = parseFloat($('.balance_ls').text()) - parseFloat(pagamento);
             console.log(calc);
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
-                url: 'movimenta-pagamento/'+cliente,
+                url: 'movimenta-pagamento/' + cliente,
                 data: {
                     "_token": "{{ csrf_token() }}",
-                    "saldoAnt": saldoCli,
+                    "saldoAnt": parseFloat($('.balance_ls').text()),
                     "pagamento": pagamento,
                     "total": calc.toFixed(6)
                 },
@@ -305,12 +339,10 @@
                 success: function (data) {
                     toastr.success('' + data.msg + ' :)');
                     $('#loader').fadeOut();
-                    Atualiza()
+                    table.ajax.reload();
                 }
             });
         }
-
-
 
         function Atualiza() {
             setTimeout(function () {
@@ -318,5 +350,25 @@
             }, 1000);
         }
 
+        var table = $('#movimentacoes').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: 'get-json-movimentacoes/' + clienteId,
+            columns: [
+                {data: 'descricao', name: 'descricao', orderable: false},
+                {data: 'created_at', name: 'created_at', orderable: true},
+
+            ],
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Portuguese-Brasil.json"
+            }
+        });
+
+
+        $(function () {
+            CKEDITOR.replace('editor1');
+            CKEDITOR.config.height = 300;
+          //  CKEDITOR.config.extraPlugins = 'colorbutton';
+        });
     </script>
 @endsection
