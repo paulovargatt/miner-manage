@@ -236,7 +236,7 @@
         $(document).on('click', '#btn-pagar', function () {
 
             var valida = $('#pagar').val().replace('.','').length;
-            if (valida < 7){
+            if (valida < 7 || $('#pagar').val().replace('.','') == 0000000){
                 toastr.warning('Digite um valor Válido, exemplo 0.000000');
                 return
             }
