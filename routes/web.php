@@ -35,7 +35,8 @@ Route::group(['middleware' => ['cors']], function () {
     Route::post('/cliente/movimenta-pagamento/{id}', 'MovimentacaoController@movimentaPagamentoCliente');
     Route::get('/cliente/get-json-movimentacoes/{id}', 'MovimentacaoController@jsonMovimentacoes');
 
-    /*Miner*/
+    /*Miner GET Jsons What to Miner*/
     Route::get('json-miner', 'ClientesController@getJsonMiner');
+    Route::get('json-miner-zcash', 'ClientesController@getJsonMinerZcash');
 
 });

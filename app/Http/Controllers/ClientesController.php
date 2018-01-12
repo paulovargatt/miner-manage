@@ -77,6 +77,13 @@ class ClientesController extends Controller
         return $json;
     }
 
+    public function getJsonMinerZcash()
+    {
+        $url = urldecode("https://whattomine.com/coins/166.json");
+        $json = json_decode(file_get_contents($url), true);
+        return $json;
+    }
+
     public function allClients()
     {
         $clientes = Clientes::join('moedas', 'moedas.id', '=', 'clientes.coin_id')

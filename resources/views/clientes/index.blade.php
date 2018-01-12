@@ -136,6 +136,7 @@
         var datePlan = "{{$cliente->date_plan}}";
         var clienteId = "{{$cliente->id}}";
         this.saldoCli = "{{$cliente->balance}}";
+        this.MoedaMinerada = {{$cliente->coin_id}};
 
         $('#plus-saldo').mask('0.000000');
         $('#pagar').mask('0.000000');
@@ -270,32 +271,57 @@
             });
         });
 
-
-        function MinerCalc() {
-            $.ajax({
-                type: 'GET',
-                dataType: 'json',
-                url: '/json-miner',
-                success: function (data) {
-                    var netHash = data.nethash;
-                    var dificult = data.difficulty;
-                    var dificult24 = data.difficulty24;
-                    netHash = (netHash / dificult) * dificult24;
-                    var hashPower = (poweMiner * 1e6) / netHash;
-                    var blockTime = data.block_time;
-                    var blockReward = data.block_reward24;
-                    var blocksPerMin = 60 / blockTime;
-                    var coinPermine = blocksPerMin * blockReward;
-                    var ganho = hashPower * coinPermine;
-                    var ganhoDia = ganho * 60 * 24;
-                    var resulGanho = ganhoDia.toFixed(6);
-                    console.log(resulGanho);
-                    $('#plus-saldo').val(resulGanho);
-                }
-            });
+        if(this.MoedaMinerada === 1) {
+            (function MinerCalc() {
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    url: '/json-miner',
+                    success: function (data) {
+                        var netHash = data.nethash;
+                        var dificult = data.difficulty;
+                        var dificult24 = data.difficulty24;
+                        netHash = (netHash / dificult) * dificult24;
+                        var hashPower = (poweMiner * 1e6) / netHash;
+                        var blockTime = data.block_time;
+                        var blockReward = data.block_reward24;
+                        var blocksPerMin = 60 / blockTime;
+                        var coinPermine = blocksPerMin * blockReward;
+                        var ganho = hashPower * coinPermine;
+                        var ganhoDia = ganho * 60 * 24;
+                        var resulGanho = ganhoDia.toFixed(6);
+                        console.log(resulGanho);
+                        $('#plus-saldo').val(resulGanho);
+                    }
+                });
+            })();
+        }else{
+            (function MinerCalc() {
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    url: '/json-miner-zcash',
+                    success: function (data) {
+                        var netHash = data.nethash;
+                        var dificult = data.difficulty;
+                        var dificult24 = data.difficulty24;
+                        netHash = (netHash / dificult) * dificult24;
+                        var hashPower = (poweMiner * 1) / netHash;
+                        var blockTime = data.block_time;
+                        var blockReward = data.block_reward24;
+                        var blocksPerMin = 60 / blockTime;
+                        var coinPermine = blocksPerMin * blockReward;
+                        var ganho = hashPower * coinPermine;
+                        var ganhoDia = ganho * 60 * 24;
+                        var resulGanho = ganhoDia.toFixed(6);
+                        console.log(resulGanho  + 'Zcash');
+                        $('#plus-saldo').val(resulGanho);
+                    }
+                });
+            })();
         }
 
-        MinerCalc();
+
 
         function movimentos(saldoAtual, cliente) {
             var calc = parseFloat($('.balance_ls').text()) + parseFloat(saldoAtual);
