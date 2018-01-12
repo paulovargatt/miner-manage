@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Movimentacao;
 use Illuminate\Http\Request;
 use App\Clientes;
 
@@ -29,6 +30,16 @@ class HomeController extends Controller
         ->select('clientes.*','moedas.name as coin_name')
         ->paginate(16);
 
-        return view('home', compact('clientes'));
+        $movimentacoes = Movimentacao::select('pago', 'minerado')
+         ->get();
+
+        $totalPago = null;
+        $totalMinerado = null;
+        foreach ($movimentacoes as $mov) {
+            $totalPago += $mov->pago;
+            $totalMinerado += $mov->minerado;
+        }
+
+        return view('home', compact('clientes','totalMinerado','totalPago'));
     }
 }

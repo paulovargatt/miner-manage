@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Expr\New_;
 use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Services\DataTable;
 
-class MovimentacaoController extends Controller
+
+class MovimentacaoController extends DataTables
 {
     public function movimentaCliente(Request $request,$id){
         $saldoAnterior =  $request->get('saldoAnt');
@@ -19,6 +21,7 @@ class MovimentacaoController extends Controller
         $movimentacao = new Movimentacao();
         $movimentacao->cliente_id = $id;
         $movimentacao->user_id = Auth::user()->id;
+        $movimentacao->minerado = $request->get('newSaldo');
         $movimentacao->descricao =
         'Foi minerado <span class="text-green">'.$incSaldo.'</span>
          Poder de Mineração: <span class="text-navy">'.$power.'</span>
@@ -40,6 +43,7 @@ class MovimentacaoController extends Controller
         $movimentacao = new Movimentacao();
         $movimentacao->cliente_id = $id;
         $movimentacao->user_id = Auth::user()->id;
+        $movimentacao->pago = $request->get('pagamento');
         $movimentacao->descricao =
         '<b>Pagamento Realizado</b> <span style="font-size: 1.2em" class="text-green">'.$pagamento.'</span>
          Saldo Anterior <span class="text-blue">'.$saldoAnterior.' </span>

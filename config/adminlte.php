@@ -116,13 +116,13 @@ return [
             'submenu' => [
                 [
                     'text' => 'Cadastrar Novo',
-                    'url'  => 'admin/blog',
+                    'url'  => 'cliente/cadastro',
                     'icon' => 'edit',
                     'icon_color' => 'gold-color',
                 ],
                 [
                     'text' => 'Ver Todos',
-                    'url'  => 'admin/blog',
+                    'url'  => 'cliente/todos',
                     'icon' => 'edit',
                     'icon_color' => 'gold-color',
                 ],

@@ -1,8 +1,6 @@
 @extends('adminlte::page')
 
-@section('title')
-    {{$cliente->name}}
-@stop
+@section('title', 'Cliente')
 
 @section('styles')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
@@ -20,6 +18,7 @@
                     <span class="info-box-text">Saldo</span>
                     <span class="info-box-number balance_ls {{$cliente->balance < 0 ? 'text-red' : ''}}">{{$cliente->balance}} </span>
                 </div>
+                <span title="Total Pago" class="totPago">{{$totalPago}}</span>
             </div>
         </div>
 
@@ -28,8 +27,11 @@
                 <span class="info-box-icon bg-blue"><i class="fa fa-tasks"></i></span>
                 <div class="info-box-content ">
                     <span class="info-box-text">Poder de Mineração</span>
-                    <span class="info-box-number minerpower"><input class="input_power_miner"
-                                                                    value="{{$cliente->power_miner}}"> {{$cliente->coin_name == 'Ethereum' ? 'MH/s' : 'ZH/s'}}</span>
+                    <span class="info-box-number minerpower">
+                        <input class="input_power_miner"
+                         value="{{$cliente->power_miner}}"> {{$cliente->coin_name == 'Ethereum' ? 'MH/s' : 'ZH/s'}}
+                    </span>
+                    <span title="Total Minerado" class="totMinerado">{{$totalMinerado}}</span>
                 </div>
             </div>
         </div>
@@ -55,8 +57,8 @@
                 <span class="info-box-icon bg-red"><i class="fa fa-calendar"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Contrato</span>
-                    <span class="info-box-number">{{$cliente->date_plan->diffForHumans()}}</span>
-                    <input id="datepicker" value="{{$cliente->date_plan->format('d/m/Y')}} "/>
+                    <span class="info-box-number">@if($cliente->date_plan != null){{$cliente->date_plan->diffForHumans()}}@endif</span>
+                    <input id="datepicker" value="{{$cliente->date_plan != null ? $cliente->date_plan->format('d/m/Y') : '01/01/2020'}}"/>
 
                 </div>
             </div>

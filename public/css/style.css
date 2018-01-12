@@ -143,5 +143,22 @@ input#datepicker{
     font-size: 1.2em;
     width: 261px;
     text-align: center;
-    border: 0PX;
+    border: 0px
+}
+
+.totMinerado{
+    top: 6px;
+    position: relative;
+    font-weight: bold;
+    color: #0073b7;
+    font-size: 1.3em;
+}
+
+.totPago{
+    top: 2px;
+    position: relative;
+    font-weight: bold;
+    color: #00a65a;
+    font-size: 1.3em;
+    left: 10px;
 }

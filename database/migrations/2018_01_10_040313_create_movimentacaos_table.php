@@ -19,6 +19,8 @@ class CreateMovimentacaosTable extends Migration
             $table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('cascade');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->decimal('pago',16,6)->nullable();
+            $table->decimal('minerado',16,6)->nullable();
             $table->text('descricao');
             $table->timestamps();
         });

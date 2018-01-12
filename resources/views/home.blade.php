@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'AdminLTE')
+@section('title', '')
 
 @section('content_header')
     <div class="row">
-        <div class="col-lg-6 col-xs-6">
+        <div class="col-lg-3 col-xs-6">
             <div class="small-box bg-blue">
                 <div class="inner">
                     <h3 id="precobitcoin">
@@ -24,7 +24,7 @@
             </div>
         </div>
 
-        <div class="col-lg-6 col-xs-6">
+        <div class="col-lg-3 col-xs-6">
             <div class="small-box bg-blue">
                 <div class="inner">
                     <h3 id="precoethereum">
@@ -43,11 +43,38 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-lg-3 col-xs-6">
+            <div class="small-box bg-blue">
+                <div class="inner">
+                    <h3>
+                        {{$totalPago}}
+                        <sup style="font-size: 20px">ETH</sup></h3>
+                    <p>Total Pago a Clientes</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-money"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-xs-6">
+            <div class="small-box bg-blue">
+                <div class="inner">
+                    <h3>
+                        {{$totalMinerado}}
+                        <sup style="font-size: 20px">ETH</sup></h3>
+                    <p>Total minerado por Clientes</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-connectdevelop"></i>
+                </div>
+            </div>
+        </div>
     </div>
 @stop
 
 @section('content')
-    {{--<h5 class="box-title" style="margin-left: 17px;font-size: 1.3em;"><i class="fa fa-users"></i> Clientes:</h5>--}}
     @foreach($clientes as $cliente)
         <div class="col-md-3">
             <div class="box box-widget widget-user-2">

@@ -21,7 +21,17 @@ class ClientesController extends Controller
             ->first();
         $coin = Moedas::all();
 
-        return view('clientes.index', compact('cliente', 'coin'));
+        $movimentacoes = Movimentacao::where('cliente_id', $id)
+            ->select('pago', 'minerado')
+            ->get();
+        $totalPago = null;
+        $totalMinerado = null;
+        foreach ($movimentacoes as $mov) {
+            $totalPago += $mov->pago;
+            $totalMinerado += $mov->minerado;
+        }
+        // dd($totalMinerado);
+        return view('clientes.index', compact('cliente', 'coin', 'totalPago', 'totalMinerado'));
     }
 
 
@@ -38,7 +48,8 @@ class ClientesController extends Controller
         return response()->json($ret);
     }
 
-    public function updateDesc(Request $request, $id){
+    public function updateDesc(Request $request, $id)
+    {
         $cliente = Clientes::find($id);
         $cliente->desc = $request->get('notas');
         $cliente->update();
@@ -57,16 +68,41 @@ class ClientesController extends Controller
             $cliente->balance -= $request->get('pagar');
             $cliente->update();
         }
-
-
     }
-
 
     public function getJsonMiner()
     {
         $url = urldecode("https://whattomine.com/coins/151.json");
         $json = json_decode(file_get_contents($url), true);
         return $json;
+    }
+
+    public function allClients()
+    {
+        $clientes = Clientes::join('moedas', 'moedas.id', '=', 'clientes.coin_id')
+            ->select('clientes.*', 'moedas.name as coin_name')
+            ->paginate(16);
+        return view('clientes.all-client', compact('clientes'));
+    }
+
+    public function cadastrarCliente()
+    {
+        $coin = Moedas::all();
+        return view('clientes.cadastro', compact('coin'));
+    }
+
+    public function postCadastrarCliente(Request $request)
+    {
+        $cliente = new Clientes();
+        $cliente->name = $request->get('name');
+        $cliente->coin_id = $request->get('select');
+        $cliente->power_miner = $request->get('power');
+        $cliente->desc = $request->get('desc');
+        $cliente->save();
+
+        return redirect('/cliente/'.$cliente->id);
+
+        dd($cu);
     }
 
 }
