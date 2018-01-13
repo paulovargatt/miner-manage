@@ -56,7 +56,7 @@ class MovimentacaoController extends DataTables
     }
 
     public function jsonMovimentacoes($id){
-        $cargaMovimentation = Movimentacao::where('cliente_id', $id)
+        $cargaMovimentation = Movimentacao::where('movimentacaos.cliente_id', $id)
             ->join('users','users.id','movimentacaos.user_id')
             ->select('movimentacaos.*','users.name')
             ->orderBy('created_at','DESC')

@@ -6,9 +6,11 @@ use App\Clientes;
 use App\Moedas;
 use App\Movimentacao;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
 Use Yajra\DataTables\DataTables;
+use Gate;
 
 class ClientesController extends Controller
 {
@@ -29,6 +31,12 @@ class ClientesController extends Controller
         foreach ($movimentacoes as $mov) {
             $totalPago += $mov->pago;
             $totalMinerado += $mov->minerado;
+        }
+
+        if (Gate::allows('user', Auth::user()->type)) {
+            if (Auth::user()->cliente_id != $id) {
+                return back();
+            }
         }
         // dd($totalMinerado);
         return view('clientes.index', compact('cliente', 'coin', 'totalPago', 'totalMinerado'));

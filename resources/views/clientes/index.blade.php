@@ -28,10 +28,16 @@
                 <div class="info-box-content ">
                     <span class="info-box-text">Poder de Mineração</span>
                     <span class="info-box-number minerpower">
-                        <input class="input_power_miner"
+                        <input class="input_power_miner" @can('user', Auth::user()->type) disabled @endcan
                          value="{{$cliente->power_miner}}"> {{$cliente->coin_name == 'Ethereum' ? 'MH/s' : 'ZH/s'}}
                     </span>
                     <span title="Total Minerado" class="totMinerado">{{$totalMinerado}}</span>
+                    <div class="cssload-tetrominos pull-right">
+                        <div class="cssload-tetromino cssload-box1"></div>
+                        <div class="cssload-tetromino cssload-box2"></div>
+                        <div class="cssload-tetromino cssload-box3"></div>
+                        <div class="cssload-tetromino cssload-box4"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -42,7 +48,7 @@
                 <div class="info-box-content">
                     <span class="info-box-text">Plano</span>
                     <span class="info-box-number">
-                    <select id="plan" style="border: 0px;">
+                    <select id="plan" style="border: 0px;" @can('user', Auth::user()->type) disabled @endcan>
                         @foreach($coin as $coins)
                             <option id="{{$coins->id}}" {{$coins->id == $cliente->coin_id ? 'selected' : ''}}>{{$coins->name}}</option>
                         @endforeach
@@ -58,8 +64,7 @@
                 <div class="info-box-content">
                     <span class="info-box-text">Contrato</span>
                     <span class="info-box-number">@if($cliente->date_plan != null){{$cliente->date_plan->diffForHumans()}}@endif</span>
-                    <input id="datepicker" value="{{$cliente->date_plan != null ? $cliente->date_plan->format('d/m/Y') : '01/01/2020'}}"/>
-
+                    <input id="datepicker" @can('user', Auth::user()->type) disabled @endcan value="{{$cliente->date_plan != null ? $cliente->date_plan->format('d/m/Y') : '01/01/2020'}}"/>
                 </div>
             </div>
         </div>
@@ -71,19 +76,18 @@
     <div class="container" style="width: 100%">
         <div class="nav-tabs-custom" style="width: 100%">
             <ul class="nav nav-tabs">
-                <li><h4><b><input class="input_name" value="{{$cliente->name}}" ></b></h4></li>
+                <li><h4><b><input @can('user', Auth::user()->type) disabled @endcan class="input_name" value="{{$cliente->name}}" ></b></h4></li>
                 <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Movimentações</a></li>
-                <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Bloco de Notas</a></li>
+                @cannot('user', Auth::user()->type) <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Bloco de Notas</a></li>
                 <li style="width: 220px;margin: -8px;">
                     <div class="input-group margin">
                         <input type="text" id="plus-saldo" class="form-control" value="0.000000">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-success btn-flat"
-                                    id="btn-plus-saldo">Aumentar Saldo </button>
+                                  id="btn-plus-saldo">Aumentar Saldo </button>
                         </span>
                     </div>
                 </li>
-
                 <li style="width: 185px;margin: -8px 15px">
                     <div class="input-group margin">
                         <input type="text" id="pagar" class="form-control" value="0.000000">
@@ -93,6 +97,7 @@
                     </div>
                 </li>
             </ul>
+            @endcannot
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1">
                     <table id="movimentacoes" class="table table-bordered">
@@ -137,266 +142,270 @@
         var clienteId = "{{$cliente->id}}";
         this.saldoCli = "{{$cliente->balance}}";
         this.MoedaMinerada = {{$cliente->coin_id}};
+        this.type = "{{auth()->user()->type}}";
 
-        $('#plus-saldo').mask('0.000000');
-        $('#pagar').mask('0.000000');
-        $('#datepicker').datepicker({
-            format: 'dd/mm/yyyy',
-            autoclose: true
-        });
-
-
-        $('.content-header, .input_name').on('change', function () {
-            var plan = $('#plan option:selected').attr('id');
-            var power_miner = $('.input_power_miner').val();
-            var datepicker = $('#datepicker').val();
-            $.ajax({
-                url: 'update-cliente/{{$cliente->id}}',
-                method: "POST",
-                dataType: "JSON",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "plan": plan,
-                    "power_miner": power_miner,
-                    "date": datepicker,
-                    "name": $('.input_name').val()
-                },
-                beforeSend: function () {
-                    $('#loader').fadeIn();
-                },
-                success: function (data) {
-                    toastr.success('' + data.msg + ' :)');
-                    $('#loader').fadeOut();
-                    Atualiza()
-                },
-                error: function () {
-                    toastr.warning('erro ao salvar');
-                    $('#loader').fadeOut();
-                }
+        if (this.type == 10) {
+            $('#plus-saldo').mask('0.000000');
+            $('#pagar').mask('0.000000');
+            $('#datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                autoclose: true
             });
-        });
-
-        $(document).on('click','.btn-bloco', function () {
-            $.ajax({
-                url: 'update-desc/{{$cliente->id}}',
-                method: "POST",
-                dataType: "JSON",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "notas": CKEDITOR.instances.bloco_notas.getData()
-                },
-                beforeSend: function () {
-                    $('#loader').fadeIn();
-                },
-                success: function (data) {
-                    toastr.success('' + data.msg + ' :)');
-                    $('#loader').fadeOut();
-                },
-                error: function () {
-                    toastr.warning('erro ao salvar');
-                    $('#loader').fadeOut();
-                }
-            });
-        });
 
 
-        $(document).on('click', '#btn-plus-saldo', function () {
-            var valida = $('#plus-saldo').val().replace('.','').length;
-            if (valida < 7){
-                toastr.warning('Digite um valor Válido, exemplo 0.000000');
-                return
-            }
-
-            var saldo = $('#plus-saldo').val();
-            $.ajax({
-                url: 'update-saldo-cliente/{{$cliente->id}}',
-                method: "POST",
-                dataType: "JSON",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "plus_saldo": saldo
-                },
-                beforeSend: function () {
-                    $('#loader').fadeIn();
-                },
-                complete: function () {
-                    $('#loader').fadeOut();
-                    $('.balance_ls').load(' .balance_ls');
-                    movimentos(saldo, clienteId);
-
-                    var valor = parseInt($('.balance_ls').text());
-                    tot = valor + pagar;
-                    if (tot < 0) {
-                        $('.balance_ls').css('color', 'red')
-                    } else {
-                        $('.balance_ls').css('color', '#333333')
-                        $('.balance_ls').removeClass('text-red')
-                    }
-                }
-            });
-        });
-
-        $(document).on('click', '#btn-pagar', function () {
-
-            var valida = $('#pagar').val().replace('.','').length;
-            if (valida < 7 || $('#pagar').val().replace('.','') == 0000000){
-                toastr.warning('Digite um valor Válido, exemplo 0.000000');
-                return
-            }
-
-            var pagar = $('#pagar').val();
-            $.ajax({
-                url: 'update-saldo-cliente/{{$cliente->id}}',
-                method: "POST",
-                dataType: "JSON",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "pagar": pagar
-                },
-                beforeSend: function () {
-                    $('#loader').fadeIn();
-                },
-                complete: function () {
-                    $('#loader').fadeOut();
-                    $('.balance_ls').load(' .balance_ls');
-                    var valor = parseInt($('.balance_ls').text());
-                    tot = valor - pagar;
-                    if (tot < 0) {
-                        $('.balance_ls').css('color', 'red')
-                    } else {
-                        $('.balance_ls').css('color', '#333333')
-                    }
-                    movimentoPagamento(saldoCli, pagar, clienteId);
-                }
-            });
-        });
-
-        if(this.MoedaMinerada === 1) {
-            (function MinerCalc() {
+            $('.content-header, .input_name').on('change', function () {
+                var plan = $('#plan option:selected').attr('id');
+                var power_miner = $('.input_power_miner').val();
+                var datepicker = $('#datepicker').val();
                 $.ajax({
-                    type: 'GET',
-                    dataType: 'json',
-                    url: '/json-miner',
+                    url: 'update-cliente/{{$cliente->id}}',
+                    method: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "plan": plan,
+                        "power_miner": power_miner,
+                        "date": datepicker,
+                        "name": $('.input_name').val()
+                    },
+                    beforeSend: function () {
+                        $('#loader').fadeIn();
+                    },
                     success: function (data) {
-                        var netHash = data.nethash;
-                        var dificult = data.difficulty;
-                        var dificult24 = data.difficulty24;
-                        netHash = (netHash / dificult) * dificult24;
-                        var hashPower = (poweMiner * 1e6) / netHash;
-                        var blockTime = data.block_time;
-                        var blockReward = data.block_reward24;
-                        var blocksPerMin = 60 / blockTime;
-                        var coinPermine = blocksPerMin * blockReward;
-                        var ganho = hashPower * coinPermine;
-                        var ganhoDia = ganho * 60 * 24;
-                        var resulGanho = ganhoDia.toFixed(6);
-                        console.log(resulGanho);
-                        $('#plus-saldo').val(resulGanho);
+                        toastr.success('' + data.msg + ' :)');
+                        $('#loader').fadeOut();
+                        Atualiza()
+                    },
+                    error: function () {
+                        toastr.warning('erro ao salvar');
+                        $('#loader').fadeOut();
                     }
                 });
-            })();
-        }else{
-            (function MinerCalc() {
+            });
+
+            $(document).on('click', '.btn-bloco', function () {
                 $.ajax({
-                    type: 'GET',
-                    dataType: 'json',
-                    url: '/json-miner-zcash',
+                    url: 'update-desc/{{$cliente->id}}',
+                    method: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "notas": CKEDITOR.instances.bloco_notas.getData()
+                    },
+                    beforeSend: function () {
+                        $('#loader').fadeIn();
+                    },
                     success: function (data) {
-                        var netHash = data.nethash;
-                        var dificult = data.difficulty;
-                        var dificult24 = data.difficulty24;
-                        netHash = (netHash / dificult) * dificult24;
-                        var hashPower = (poweMiner * 1) / netHash;
-                        var blockTime = data.block_time;
-                        var blockReward = data.block_reward24;
-                        var blocksPerMin = 60 / blockTime;
-                        var coinPermine = blocksPerMin * blockReward;
-                        var ganho = hashPower * coinPermine;
-                        var ganhoDia = ganho * 60 * 24;
-                        var resulGanho = ganhoDia.toFixed(6);
-                        console.log(resulGanho  + 'Zcash');
-                        $('#plus-saldo').val(resulGanho);
+                        toastr.success('' + data.msg + ' :)');
+                        $('#loader').fadeOut();
+                    },
+                    error: function () {
+                        toastr.warning('erro ao salvar');
+                        $('#loader').fadeOut();
                     }
                 });
-            })();
-        }
-
-
-
-        function movimentos(saldoAtual, cliente) {
-            var calc = parseFloat($('.balance_ls').text()) + parseFloat(saldoAtual);
-            console.log(calc);
-            $.ajax({
-                type: 'POST',
-                dataType: 'json',
-                url: 'movimenta/' + cliente,
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "saldoAnt": parseFloat($('.balance_ls').text()),
-                    "newSaldo": saldoAtual,
-                    "total": calc.toFixed(6),
-                    "poweMiner": poweMiner
-                },
-                beforeSend: function () {
-                    $('#loader').fadeIn();
-                },
-                success: function (data) {
-                    toastr.success('' + data.msg + ' :)');
-                    $('#loader').fadeOut();
-                    table.ajax.reload();
-                }
             });
-        }
 
-        function movimentoPagamento(saldoAtual, pagamento, cliente) {
-            var calc = parseFloat($('.balance_ls').text()) - parseFloat(pagamento);
-            console.log(calc);
-            $.ajax({
-                type: 'POST',
-                dataType: 'json',
-                url: 'movimenta-pagamento/' + cliente,
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "saldoAnt": parseFloat($('.balance_ls').text()),
-                    "pagamento": pagamento,
-                    "total": calc.toFixed(6)
-                },
-                beforeSend: function () {
-                    $('#loader').fadeIn();
-                },
-                success: function (data) {
-                    toastr.success('' + data.msg + ' :)');
-                    $('#loader').fadeOut();
-                    table.ajax.reload();
+
+            $(document).on('click', '#btn-plus-saldo', function () {
+                var valida = $('#plus-saldo').val().replace('.', '').length;
+                if (valida < 7) {
+                    toastr.warning('Digite um valor Válido, exemplo 0.000000');
+                    return
                 }
+
+                var saldo = $('#plus-saldo').val();
+                $.ajax({
+                    url: 'update-saldo-cliente/{{$cliente->id}}',
+                    method: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "plus_saldo": saldo
+                    },
+                    beforeSend: function () {
+                        $('#loader').fadeIn();
+                    },
+                    complete: function () {
+                        $('#loader').fadeOut();
+                        $('.balance_ls').load(' .balance_ls');
+                        movimentos(saldo, clienteId);
+
+                        var valor = parseInt($('.balance_ls').text());
+                        tot = valor + pagar;
+                        if (tot < 0) {
+                            $('.balance_ls').css('color', 'red')
+                        } else {
+                            $('.balance_ls').css('color', '#333333')
+                            $('.balance_ls').removeClass('text-red')
+                        }
+                    }
+                });
             });
-        }
 
-        function Atualiza() {
-            setTimeout(function () {
-                window.location.reload()
-            }, 1000);
-        }
+            $(document).on('click', '#btn-pagar', function () {
 
-        var table = $('#movimentacoes').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: 'get-json-movimentacoes/' + clienteId,
-            columns: [
-                {data: 'descricao', name: 'descricao', orderable: false},
-                {data: 'created_at', name: 'created_at', orderable: true},
+                var valida = $('#pagar').val().replace('.', '').length;
+                if (valida < 7 || $('#pagar').val().replace('.', '') == 0000000) {
+                    toastr.warning('Digite um valor Válido, exemplo 0.000000');
+                    return
+                }
 
-            ],
-            "language": {
-                "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Portuguese-Brasil.json"
+                var pagar = $('#pagar').val();
+                $.ajax({
+                    url: 'update-saldo-cliente/{{$cliente->id}}',
+                    method: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "pagar": pagar
+                    },
+                    beforeSend: function () {
+                        $('#loader').fadeIn();
+                    },
+                    complete: function () {
+                        $('#loader').fadeOut();
+                        $('.balance_ls').load(' .balance_ls');
+                        var valor = parseInt($('.balance_ls').text());
+                        tot = valor - pagar;
+                        if (tot < 0) {
+                            $('.balance_ls').css('color', 'red')
+                        } else {
+                            $('.balance_ls').css('color', '#333333')
+                        }
+                        movimentoPagamento(saldoCli, pagar, clienteId);
+                    }
+                });
+            });
+
+            if (this.MoedaMinerada === 1) {
+                (function MinerCalc() {
+                    $.ajax({
+                        type: 'GET',
+                        dataType: 'json',
+                        url: '/json-miner',
+                        success: function (data) {
+                            var netHash = data.nethash;
+                            var dificult = data.difficulty;
+                            var dificult24 = data.difficulty24;
+                            netHash = (netHash / dificult) * dificult24;
+                            var hashPower = (poweMiner * 1e6) / netHash;
+                            var blockTime = data.block_time;
+                            var blockReward = data.block_reward24;
+                            var blocksPerMin = 60 / blockTime;
+                            var coinPermine = blocksPerMin * blockReward;
+                            var ganho = hashPower * coinPermine;
+                            var ganhoDia = ganho * 60 * 24;
+                            var resulGanho = ganhoDia.toFixed(6);
+                            console.log(resulGanho);
+                            $('#plus-saldo').val(resulGanho);
+                        }
+                    });
+                })();
+            } else {
+                (function MinerCalc() {
+                    $.ajax({
+                        type: 'GET',
+                        dataType: 'json',
+                        url: '/json-miner-zcash',
+                        success: function (data) {
+                            var netHash = data.nethash;
+                            var dificult = data.difficulty;
+                            var dificult24 = data.difficulty24;
+                            netHash = (netHash / dificult) * dificult24;
+                            var hashPower = (poweMiner * 1) / netHash;
+                            var blockTime = data.block_time;
+                            var blockReward = data.block_reward24;
+                            var blocksPerMin = 60 / blockTime;
+                            var coinPermine = blocksPerMin * blockReward;
+                            var ganho = hashPower * coinPermine;
+                            var ganhoDia = ganho * 60 * 24;
+                            var resulGanho = ganhoDia.toFixed(6);
+                            console.log(resulGanho + 'Zcash');
+                            $('#plus-saldo').val(resulGanho);
+                        }
+                    });
+                })();
             }
-        });
 
 
-        $(function () {
-            CKEDITOR.replace('editor1');
-            CKEDITOR.config.height = 300;
-          //  CKEDITOR.config.extraPlugins = 'colorbutton';
-        });
+            function movimentos(saldoAtual, cliente) {
+                var calc = parseFloat($('.balance_ls').text()) + parseFloat(saldoAtual);
+                console.log(calc);
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    url: 'movimenta/' + cliente,
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "saldoAnt": parseFloat($('.balance_ls').text()),
+                        "newSaldo": saldoAtual,
+                        "total": calc.toFixed(6),
+                        "poweMiner": poweMiner
+                    },
+                    beforeSend: function () {
+                        $('#loader').fadeIn();
+                    },
+                    success: function (data) {
+                        toastr.success('' + data.msg + ' :)');
+                        $('#loader').fadeOut();
+                        table.ajax.reload();
+                    }
+                });
+            }
+
+            function movimentoPagamento(saldoAtual, pagamento, cliente) {
+                var calc = parseFloat($('.balance_ls').text()) - parseFloat(pagamento);
+                console.log(calc);
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    url: 'movimenta-pagamento/' + cliente,
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "saldoAnt": parseFloat($('.balance_ls').text()),
+                        "pagamento": pagamento,
+                        "total": calc.toFixed(6)
+                    },
+                    beforeSend: function () {
+                        $('#loader').fadeIn();
+                    },
+                    success: function (data) {
+                        toastr.success('' + data.msg + ' :)');
+                        $('#loader').fadeOut();
+                        table.ajax.reload();
+                    }
+                });
+            }
+
+            function Atualiza() {
+                setTimeout(function () {
+                    window.location.reload()
+                }, 1000);
+            }
+
+            $(function () {
+                CKEDITOR.replace('editor1');
+                CKEDITOR.config.height = 300;
+                //  CKEDITOR.config.extraPlugins = 'colorbutton';
+            });
+        }
+
+
+        if (this.type == 1 || this.type == 10) {
+            var table = $('#movimentacoes').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: 'get-json-movimentacoes/' + clienteId,
+                columns: [
+                    {data: 'descricao', name: 'descricao', orderable: false},
+                    {data: 'created_at', name: 'created_at', orderable: true},
+
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Portuguese-Brasil.json"
+                }
+            });
+        }
     </script>
 @endsection

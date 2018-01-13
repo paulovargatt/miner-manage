@@ -108,11 +108,11 @@ return [
     */
 
     'menu' => [
-        'Gerenciar Clientes',
         [
             'text' => 'Clientes',
             'icon' => 'users',
             'icon_color' => 'gold-color',
+            'can' => 'admin',
             'submenu' => [
                 [
                     'text' => 'Cadastrar Novo',
@@ -132,6 +132,7 @@ return [
             'text' => 'Moedas',
             'icon' => 'btc',
             'icon_color' => 'gold-color',
+            'can' => 'admin',
             'submenu' => [
                 [
                     'text' => 'Cadastrar Nova',
