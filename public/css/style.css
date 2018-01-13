@@ -151,7 +151,7 @@ input#datepicker{
     position: relative;
     font-weight: bold;
     color: #0073b7;
-    font-size: 1.3em;
+    font-size: 0.85em;
 }
 
 .totPago{
@@ -159,6 +159,6 @@ input#datepicker{
     position: relative;
     font-weight: bold;
     color: #00a65a;
-    font-size: 1.3em;
+    font-size: 0.85em;
     left: 10px;
 }
