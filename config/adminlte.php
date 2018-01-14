@@ -156,6 +156,7 @@ return [
             'icon' => 'lock',
             'icon_color' => 'gold-color',
         ],
+
     ],
 
     /*

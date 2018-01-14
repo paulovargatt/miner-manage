@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Clientes;
 use App\Moedas;
 use App\Movimentacao;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -16,11 +17,13 @@ class ClientesController extends Controller
 {
     public function index(Request $request, $id)
     {
-        $cliente = Clientes::
-        where('clientes.id', $id)
+        $cliente = Clientes::where('clientes.id', $id)
+            ->join('users', 'users.cliente_id', 'clientes.id')
             ->join('moedas', 'moedas.id', '=', 'clientes.coin_id')
-            ->select('clientes.*', 'moedas.name as coin_name')
+            ->select('clientes.*', 'moedas.name as coin_name', 'email', 'users.password')
             ->first();
+        //dd($cliente);
+
         $coin = Moedas::all();
 
         $movimentacoes = Movimentacao::where('cliente_id', $id)
@@ -39,7 +42,11 @@ class ClientesController extends Controller
             }
         }
         // dd($totalMinerado);
-        return view('clientes.index', compact('cliente', 'coin', 'totalPago', 'totalMinerado'));
+        //$users = User::where('cliente_id', '=', $id)->get();
+        //dd($users);
+
+        return view('clientes.index', compact('cliente',
+            'coin', 'totalPago', 'totalMinerado'));
     }
 
 
@@ -115,7 +122,7 @@ class ClientesController extends Controller
         $cliente->desc = $request->get('desc');
         $cliente->save();
 
-        return redirect('/cliente/'.$cliente->id);
+        return redirect('/cliente/' . $cliente->id);
 
         dd($cu);
     }

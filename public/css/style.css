@@ -444,3 +444,11 @@ button[disabled], html input[disabled] {
         -moz-transform: translate(0, 0);
     }
 }
+
+[name~=movimentacoes_length] {
+    padding: 0px 5px;
+    border: 0px solid #000 !important;
+}
+.logo-lg {
+    font-family: black-ops-one, sans-serif;
+}

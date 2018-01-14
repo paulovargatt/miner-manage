@@ -29,7 +29,7 @@
                     <span class="info-box-text">Poder de Mineração</span>
                     <span class="info-box-number minerpower">
                         <input class="input_power_miner" @can('user', Auth::user()->type) disabled @endcan
-                         value="{{$cliente->power_miner}}"> {{$cliente->coin_name == 'Ethereum' ? 'MH/s' : 'ZH/s'}}
+                        value="{{$cliente->power_miner}}"> {{$cliente->coin_name == 'Ethereum' ? 'MH/s' : 'ZH/s'}}
                     </span>
                     <span title="Total Minerado" class="totMinerado">{{$totalMinerado}}</span>
                     <div class="cssload-tetrominos pull-right">
@@ -64,7 +64,8 @@
                 <div class="info-box-content">
                     <span class="info-box-text">Contrato</span>
                     <span class="info-box-number">@if($cliente->date_plan != null){{$cliente->date_plan->diffForHumans()}}@endif</span>
-                    <input id="datepicker" @can('user', Auth::user()->type) disabled @endcan value="{{$cliente->date_plan != null ? $cliente->date_plan->format('d/m/Y') : '01/01/2020'}}"/>
+                    <input id="datepicker" @can('user', Auth::user()->type) disabled
+                           @endcan value="{{$cliente->date_plan != null ? $cliente->date_plan->format('d/m/Y') : '01/01/2020'}}"/>
                 </div>
             </div>
         </div>
@@ -76,26 +77,29 @@
     <div class="container" style="width: 100%">
         <div class="nav-tabs-custom" style="width: 100%">
             <ul class="nav nav-tabs">
-                <li><h4><b><input @can('user', Auth::user()->type) disabled @endcan class="input_name" value="{{$cliente->name}}" ></b></h4></li>
+                <li><h4><b><input @can('user', Auth::user()->type) disabled @endcan class="input_name"
+                                  value="{{$cliente->name}}"></b></h4></li>
                 <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Movimentações</a></li>
-                @cannot('user', Auth::user()->type) <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Bloco de Notas</a></li>
-                <li style="width: 220px;margin: -8px;">
-                    <div class="input-group margin">
-                        <input type="text" id="plus-saldo" class="form-control" value="0.000000">
-                        <span class="input-group-btn">
+                @cannot('user', Auth::user()->type)
+                    <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Bloco de Notas</a></li>
+                    <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Gerar Usuário</a></li>
+                    <li style="width: 220px;margin: -8px;">
+                        <div class="input-group margin">
+                            <input type="text" id="plus-saldo" class="form-control" value="0.000000">
+                            <span class="input-group-btn">
                             <button type="button" class="btn btn-success btn-flat"
-                                  id="btn-plus-saldo">Aumentar Saldo </button>
+                                    id="btn-plus-saldo">Aumentar Saldo </button>
                         </span>
-                    </div>
-                </li>
-                <li style="width: 185px;margin: -8px 15px">
-                    <div class="input-group margin">
-                        <input type="text" id="pagar" class="form-control" value="0.000000">
-                        <span class="input-group-btn">
+                        </div>
+                    </li>
+                    <li style="width: 185px;margin: -8px 15px">
+                        <div class="input-group margin">
+                            <input type="text" id="pagar" class="form-control" value="0.000000">
+                            <span class="input-group-btn">
                             <button type="button" class="btn btn-warning btn-flat" id="btn-pagar">Pagar </button>
                         </span>
-                    </div>
-                </li>
+                        </div>
+                    </li>
             </ul>
             @endcannot
             <div class="tab-content">
@@ -119,6 +123,24 @@
                     {!! $cliente->desc !!}
                     </textarea>
                     <button class="btn btn-primary btn-bloco">Salvar</button>
+                </div>
+
+                <div class="tab-pane" id="tab_3">
+                    <div class="clear-fix"></div>
+                    <div class="row">
+                        <form action="" method="post">
+                            {{ csrf_field() }}
+                            <div class="col-md-4">
+                                <input class="form-control" type="text" value="{{$cliente->name}}">
+                                <br>
+                                <input class="form-control" type="text"  value="{{$cliente->email}}" name="email" placeholder="E-mail">
+                                <br>
+                                <input class="form-control" type="password" value="" placeholder="Senha">
+                                <br>
+                                <button class="btn btn-success" >Salvar</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
