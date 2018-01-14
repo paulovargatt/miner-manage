@@ -16,7 +16,7 @@
                 <span class="info-box-icon bg-green"><i class="fa fa-usd"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Saldo</span>
-                    <span class="info-box-number balance_ls {{$cliente->balance < 0 ? 'text-red' : ''}}">{{$cliente->balance}} </span>
+                    <span class="info-box-number balance_ls @if($cliente->balance){{$cliente->balance < 0 ? 'text-red' : ''}}">{{$cliente->balance}}@endif </span>
                 </div>
                 <span title="Total Pago" class="totPago">{{$totalPago}}</span>
             </div>
@@ -128,18 +128,45 @@
                 <div class="tab-pane" id="tab_3">
                     <div class="clear-fix"></div>
                     <div class="row">
-                        <form action="" method="post">
+                        @if($users->isEmpty())
+                        <form method="post">
                             {{ csrf_field() }}
                             <div class="col-md-4">
-                                <input class="form-control" type="text" value="{{$cliente->name}}">
+                                <input class="form-control input_name_user" type="text" value="{{$cliente->name}}">
                                 <br>
-                                <input class="form-control" type="text"  value="{{$cliente->email}}" name="email" placeholder="E-mail">
+                                <input class="form-control input_mail_user" type="text"  value="" name="email" placeholder="E-mail">
                                 <br>
-                                <input class="form-control" type="password" value="" placeholder="Senha">
+                                <input class="form-control input_pass_user" type="password" value="" placeholder="Senha">
                                 <br>
-                                <button class="btn btn-success" >Salvar</button>
+                                <button class="btn btn-success newcliente_user" >Salvar</button>
                             </div>
                         </form>
+                    @endif
+                    <div class="container"><br><div class="clear-fix"></div>
+                        <table class="table table-bordered table_users">
+                            <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Senha</th>
+                                <th>Ações</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                @foreach($users as $user)
+                                    <td><input class="td_name_user_up" required value="{{$user->name}}"></td>
+                                    <td><input class="td_mail_user_up" required value="{{$user->email}}"></td>
+                                    <td><input class="td_pass_user_up" required type="password" placeholder="Nova Senha"></td>
+                                    <td>
+                                        <button class="btn btn-xs btn-success update_user_cliente">Atualizar</button>
+                                        <button class="btn btn-xs btn-danger">Excluir</button>
+                                    </td>
+                                @endforeach
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -227,6 +254,62 @@
                     }
                 });
             });
+
+            $(document).on('click', '.newcliente_user', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: 'up-or-create-user/{{$cliente->id}}',
+                    method: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "name": $('.input_name_user').val(),
+                        "email": $('.input_mail_user').val(),
+                        "password": $('.input_pass_user').val(),
+                        "cliente_id": "{{$cliente->id}}"
+
+                    },
+                    beforeSend: function () {
+                        $('#loader').fadeIn();
+                    },
+                    success: function (data) {
+                        toastr.success('' + data.msg + ' :)');
+                        $('#loader').fadeOut();
+                        Atualiza();
+                    },
+                    error: function () {
+                        toastr.warning('erro ao salvar');
+                        $('#loader').fadeOut();
+                    }
+                });
+            });
+
+            $(document).on('click', '.update_user_cliente', function () {
+                $.ajax({
+                    url: 'update-user-cliente/@if(!$users->isEmpty()){{$users[0]->id}}@endif',
+                    method: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "name": $('.td_name_user_up').val(),
+                        "email": $('.td_mail_user_up').val(),
+                        "password": $('.td_pass_user_up').val()
+                    },
+                    beforeSend: function () {
+                        $('#loader').fadeIn();
+                    },
+                    success: function (data) {
+                        toastr.success('' + data.msg + ' :)');
+                        $('#loader').fadeOut();
+                    },
+                    error: function () {
+                        toastr.warning('erro ao salvar');
+                        $('#loader').fadeOut();
+                    }
+                });
+            });
+
+
 
 
             $(document).on('click', '#btn-plus-saldo', function () {

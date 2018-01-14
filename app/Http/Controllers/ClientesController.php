@@ -18,17 +18,16 @@ class ClientesController extends Controller
     public function index(Request $request, $id)
     {
         $cliente = Clientes::where('clientes.id', $id)
-            ->join('users', 'users.cliente_id', 'clientes.id')
             ->join('moedas', 'moedas.id', '=', 'clientes.coin_id')
-            ->select('clientes.*', 'moedas.name as coin_name', 'email', 'users.password')
+            ->select('clientes.*', 'moedas.name as coin_name')
             ->first();
-        //dd($cliente);
 
         $coin = Moedas::all();
 
         $movimentacoes = Movimentacao::where('cliente_id', $id)
             ->select('pago', 'minerado')
             ->get();
+
         $totalPago = null;
         $totalMinerado = null;
         foreach ($movimentacoes as $mov) {
@@ -41,12 +40,13 @@ class ClientesController extends Controller
                 return back();
             }
         }
+
         // dd($totalMinerado);
-        //$users = User::where('cliente_id', '=', $id)->get();
+        $users = User::where('cliente_id', '=', $id)->get();
         //dd($users);
 
         return view('clientes.index', compact('cliente',
-            'coin', 'totalPago', 'totalMinerado'));
+            'coin', 'totalPago', 'totalMinerado','users'));
     }
 
 
@@ -121,10 +121,33 @@ class ClientesController extends Controller
         $cliente->power_miner = $request->get('power');
         $cliente->desc = $request->get('desc');
         $cliente->save();
-
         return redirect('/cliente/' . $cliente->id);
+    }
 
-        dd($cu);
+    public function UsuarioForCliente(Request $request)
+    {
+        $user = new User();
+        $user->name = $request->get('name');
+        $user->email = $request->get('email');
+        $user->password = bcrypt($request->get('password'));
+        $user->cliente_id = $request->get('cliente_id');
+        $user->save();
+
+        $ret = array('status' => 'success',
+            'msg' => 'Usuário criado!');
+        return response()->json($ret);
+    }
+
+    public function updateUserCliente(Request $request, $user_id){
+        $user = User::find($user_id);
+        $user->name = $request->get('name');
+        $user->email = $request->get('email');
+        $user->password = bcrypt($request->get('password'));
+        $user->save();
+
+        $ret = array('status' => 'success',
+            'msg' => 'Usuário Atualizado Com Sucesso!');
+        return response()->json($ret);
     }
 
 }

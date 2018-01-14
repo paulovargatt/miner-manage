@@ -452,3 +452,7 @@ button[disabled], html input[disabled] {
 .logo-lg {
     font-family: black-ops-one, sans-serif;
 }
+
+.table_users tr td input{
+    border: 0px;
+}
