@@ -185,7 +185,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.8.0/plugins/colorbutton/plugin.js"></script>
 
     <script>
-
+@if(Auth()->user()->type == 10)
         var poweMiner = "{{$cliente->power_miner}}";
         var datePlan = "{{$cliente->date_plan}}";
         var clienteId = "{{$cliente->id}}";
@@ -496,12 +496,12 @@
             });
         }
 
+@endif
 
-        if (this.type == 1 || this.type == 10) {
             var table = $('#movimentacoes').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: 'get-json-movimentacoes/' + clienteId,
+                ajax: 'get-json-movimentacoes/' + "{{$cliente->id}}",
                 columns: [
                     {data: 'descricao', name: 'descricao', orderable: false},
                     {data: 'created_at', name: 'created_at', orderable: true},
@@ -511,6 +511,6 @@
                     "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Portuguese-Brasil.json"
                 }
             });
-        }
+
     </script>
 @endsection

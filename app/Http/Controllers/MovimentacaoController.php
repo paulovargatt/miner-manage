@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Expr\New_;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Services\DataTable;
+use Gate;
 
 
 class MovimentacaoController extends DataTables
@@ -61,6 +62,12 @@ class MovimentacaoController extends DataTables
             ->select('movimentacaos.*','users.name')
             ->orderBy('created_at','DESC')
             ->get();
+
+        if (Gate::allows('user', Auth::user()->type)) {
+            if (Auth::user()->cliente_id != $id) {
+                return back();
+            }
+        }
 
         return DataTables::of($cargaMovimentation)
             ->addColumn('descricao', function ($cargaMovimentation) {

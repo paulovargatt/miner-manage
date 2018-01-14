@@ -138,11 +138,15 @@ class ClientesController extends Controller
         return response()->json($ret);
     }
 
-    public function updateUserCliente(Request $request, $user_id){
+    public function updateUserCliente(Request $request, $user_id)
+    {
         $user = User::find($user_id);
+
+
         $user->name = $request->get('name');
         $user->email = $request->get('email');
-        $user->password = bcrypt($request->get('password'));
+        if ($request->get('password') != '')
+           $user->password  = bcrypt($request->get('password'));
         $user->save();
 
         $ret = array('status' => 'success',
