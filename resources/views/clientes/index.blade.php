@@ -183,13 +183,30 @@
                     <div class="row">
                         <div class="container" style="padding: 0px 25px;">
                             <h3 class="text-center">Previsão de rendimentos</h3>
-                            <h3>Poder de mineração atual: {{$cliente->power_miner}}</h3>
-                            <h4>Ganho dia: <b><span id="ganho_Dia"></span></b></h4>
-                            <h4>Ganho Semanal: <b><span id="semana_ganho"></span></b></h4>
-                            <h4>Ganho Mensal: <b><span id="mes_ganho"></span></b></h4>
-                            <h4>Ganho Anual: <b><span id="ano_ganho"></span></b></h4>
-                            <h4>Ganho em 2 anos: <b><span id="twoYear_ganho"></span></b></h4>
-
+                            <h4 class="text-center">Poder de mineração atual: {{$cliente->power_miner}}</h4>
+                            <table class="table table-bordered table_ganhos" style="width: 100%; margin: 0 auto;">
+                                <tbody>
+                                <tr>
+                                    <th>Ganho</th>
+                                    <th>Total</th>
+                                </tr>
+                                <tr>
+                                    <td>Dia </td><td><span id="ganho_Dia"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Semana </td><td><span id="semana_ganho"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Mês </td><td><span id="mes_ganho"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Ano </td><td><span id="ano_ganho"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>2 Anos </td><td><span id="twoYear_ganho"></span></td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

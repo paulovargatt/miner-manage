@@ -470,3 +470,10 @@ ul > li.header:nth-child(5), ul > li.header:nth-child(4){
     color: #fff!important;
     font-size: 1em!important;
 }
+
+.table_ganhos{
+    font-size: 1.2em;
+}
+.table_ganhos td, th{
+    text-align:center
+}
