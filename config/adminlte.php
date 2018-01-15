@@ -13,9 +13,9 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 2',
+    'title' => 'Miner Manage',
 
-    'title_prefix' => '',
+    'title_prefix' => 'Miner Manage',
 
     'title_postfix' => '',
 
@@ -93,7 +93,7 @@ return [
 
     'login_url' => 'login',
 
-    'register_url' => 'register',
+    'register_url' => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -108,6 +108,14 @@ return [
     */
 
     'menu' => [
+        [
+            'text' => 'Inicio',
+            'icon' => 'home',
+            'url' => 'home',
+            'icon_color' => 'gold-color',
+            'can' => 'admin',
+        ],
+
         [
             'text' => 'Clientes',
             'icon' => 'users',
@@ -128,32 +136,11 @@ return [
                 ],
             ]
         ],
-        [
-            'text' => 'Moedas',
-            'icon' => 'btc',
-            'icon_color' => 'gold-color',
-            'can' => 'admin',
-            'submenu' => [
-                [
-                    'text' => 'Cadastrar Nova',
-                    'url'  => 'admin/blog',
-                    'icon' => 'edit',
-                    'icon_color' => 'gold-color',
-                ],
-                [
-                    'text' => 'Ver Todas',
-                    'url'  => 'admin/blog',
-                    'icon' => 'edit',
-                    'icon_color' => 'gold-color',
-                ],
-            ]
-        ],
-
         'Conta',
         [
-            'text' => 'Trocar Senha',
-            'url'  => 'admin/settings',
-            'icon' => 'lock',
+            'text' => 'Meus Dados',
+            'url'  => 'nova-senha',
+            'icon' => 'user',
             'icon_color' => 'gold-color',
         ],
 
@@ -192,6 +179,6 @@ return [
 
     'plugins' => [
         'datatables' => true,
-        'select2'    => true,
+        'select2'    => false,
     ],
 ];

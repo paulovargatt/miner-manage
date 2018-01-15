@@ -80,7 +80,10 @@
                 <li><h4><b><input @can('user', Auth::user()->type) disabled @endcan class="input_name"
                                   value="{{$cliente->name}}"></b></h4></li>
                 <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Movimentações</a></li>
-                @cannot('user', Auth::user()->type)
+
+                @can('user')<li class=""><a href="#tab_4" data-toggle="tab" aria-expanded="false">Previsão de rendimento</a></li>
+                @endcan
+            @cannot('user', Auth::user()->type)
                     <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Bloco de Notas</a></li>
                     <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Gerar Usuário</a></li>
                     <li style="width: 220px;margin: -8px;">
@@ -129,44 +132,65 @@
                     <div class="clear-fix"></div>
                     <div class="row">
                         @if($users->isEmpty())
-                        <form method="post">
-                            {{ csrf_field() }}
-                            <div class="col-md-4">
-                                <input class="form-control input_name_user" type="text" value="{{$cliente->name}}">
-                                <br>
-                                <input class="form-control input_mail_user" type="text"  value="" name="email" placeholder="E-mail">
-                                <br>
-                                <input class="form-control input_pass_user" type="password" value="" placeholder="Senha">
-                                <br>
-                                <button class="btn btn-success newcliente_user" >Salvar</button>
-                            </div>
-                        </form>
-                    @endif
-                    <div class="container"><br><div class="clear-fix"></div>
-                        <table class="table table-bordered table_users">
-                            <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Email</th>
-                                <th>Senha</th>
-                                <th>Ações</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                @foreach($users as $user)
-                                    <td><input class="td_name_user_up" required value="{{$user->name}}"></td>
-                                    <td><input class="td_mail_user_up" required value="{{$user->email}}"></td>
-                                    <td><input class="td_pass_user_up" required type="password" placeholder="Nova Senha"></td>
-                                    <td>
-                                        <button class="btn btn-xs btn-success update_user_cliente">Atualizar</button>
-                                        <button class="btn btn-xs btn-danger">Excluir</button>
-                                    </td>
-                                @endforeach
-                            </tr>
-                            </tbody>
-                        </table>
+                            <h3 class="text-center">Cadastrar Usuário para cliente</h3>
+                            <form method="post">
+                                {{ csrf_field() }}
+                                <div class="col-md-4">
+                                    <input class="form-control input_name_user" type="text" value="{{$cliente->name}}">
+                                    <br>
+                                    <input class="form-control input_mail_user" type="text" value="" name="email"
+                                           placeholder="E-mail">
+                                    <br>
+                                    <input class="form-control input_pass_user" type="password" value=""
+                                           placeholder="Senha">
+                                    <br>
+                                    <button class="btn btn-success newcliente_user">Salvar</button>
+                                </div>
+                            </form>
+                        @endif
+                        <div class="container"><br>
+                            <div class="clear-fix"></div>
+                            @if(!$users->isEmpty())
+                                <table class="table table-bordered table_users">
+                                    <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Email</th>
+                                        <th>Senha</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        @foreach($users as $user)
+                                            <td><input class="td_name_user_up" required value="{{$user->name}}"></td>
+                                            <td><input class="td_mail_user_up" required value="{{$user->email}}"></td>
+                                            <td><input class="td_pass_user_up" required type="password" placeholder="Nova Senha"></td>
+                                            <td>
+                                                <button class="btn btn-xs btn-success update_user_cliente">Atualizar </button>
+                                            </td>
+                                        @endforeach
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            @endif
+                        </div>
                     </div>
+                </div>
+
+                <div class="tab-pane" id="tab_4">
+                    <div class="clear-fix"></div>
+                    <div class="row">
+                        <div class="container" style="padding: 0px 25px;">
+                            <h3 class="text-center">Previsão de rendimentos</h3>
+                            <h3>Poder de mineração atual: {{$cliente->power_miner}}</h3>
+                            <h4>Ganho dia: <b><span id="ganho_Dia"></span></b></h4>
+                            <h4>Ganho Semanal: <b><span id="semana_ganho"></span></b></h4>
+                            <h4>Ganho Mensal: <b><span id="mes_ganho"></span></b></h4>
+                            <h4>Ganho Anual: <b><span id="ano_ganho"></span></b></h4>
+                            <h4>Ganho em 2 anos: <b><span id="twoYear_ganho"></span></b></h4>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -185,13 +209,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.8.0/plugins/colorbutton/plugin.js"></script>
 
     <script>
-@if(Auth()->user()->type == 10)
+        this.MoedaMinerada = {{$cliente->coin_id}};
+        this.type = "{{auth()->user()->type}}";
         var poweMiner = "{{$cliente->power_miner}}";
+
+        @if(Auth()->user()->type == 10)
+
         var datePlan = "{{$cliente->date_plan}}";
         var clienteId = "{{$cliente->id}}";
         this.saldoCli = "{{$cliente->balance}}";
-        this.MoedaMinerada = {{$cliente->coin_id}};
-        this.type = "{{auth()->user()->type}}";
 
         if (this.type == 10) {
             $('#plus-saldo').mask('0.000000');
@@ -310,8 +336,6 @@
             });
 
 
-
-
             $(document).on('click', '#btn-plus-saldo', function () {
                 var valida = $('#plus-saldo').val().replace('.', '').length;
                 if (valida < 7) {
@@ -383,56 +407,6 @@
                 });
             });
 
-            if (this.MoedaMinerada === 1) {
-                (function MinerCalc() {
-                    $.ajax({
-                        type: 'GET',
-                        dataType: 'json',
-                        url: '/json-miner',
-                        success: function (data) {
-                            var netHash = data.nethash;
-                            var dificult = data.difficulty;
-                            var dificult24 = data.difficulty24;
-                            netHash = (netHash / dificult) * dificult24;
-                            var hashPower = (poweMiner * 1e6) / netHash;
-                            var blockTime = data.block_time;
-                            var blockReward = data.block_reward24;
-                            var blocksPerMin = 60 / blockTime;
-                            var coinPermine = blocksPerMin * blockReward;
-                            var ganho = hashPower * coinPermine;
-                            var ganhoDia = ganho * 60 * 24;
-                            var resulGanho = ganhoDia.toFixed(6);
-                            console.log(resulGanho);
-                            $('#plus-saldo').val(resulGanho);
-                        }
-                    });
-                })();
-            } else {
-                (function MinerCalc() {
-                    $.ajax({
-                        type: 'GET',
-                        dataType: 'json',
-                        url: '/json-miner-zcash',
-                        success: function (data) {
-                            var netHash = data.nethash;
-                            var dificult = data.difficulty;
-                            var dificult24 = data.difficulty24;
-                            netHash = (netHash / dificult) * dificult24;
-                            var hashPower = (poweMiner * 1) / netHash;
-                            var blockTime = data.block_time;
-                            var blockReward = data.block_reward24;
-                            var blocksPerMin = 60 / blockTime;
-                            var coinPermine = blocksPerMin * blockReward;
-                            var ganho = hashPower * coinPermine;
-                            var ganhoDia = ganho * 60 * 24;
-                            var resulGanho = ganhoDia.toFixed(6);
-                            console.log(resulGanho + 'Zcash');
-                            $('#plus-saldo').val(resulGanho);
-                        }
-                    });
-                })();
-            }
-
 
             function movimentos(saldoAtual, cliente) {
                 var calc = parseFloat($('.balance_ls').text()) + parseFloat(saldoAtual);
@@ -496,9 +470,9 @@
             });
         }
 
-@endif
+                @endif
 
-            var table = $('#movimentacoes').DataTable({
+        var table = $('#movimentacoes').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: 'get-json-movimentacoes/' + "{{$cliente->id}}",
@@ -511,6 +485,64 @@
                     "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Portuguese-Brasil.json"
                 }
             });
+
+                if (this.MoedaMinerada === 1) {
+                    (function MinerCalc() {
+                        $.ajax({
+                            type: 'GET',
+                            dataType: 'json',
+                            url: '/json-miner',
+                            success: function (data) {
+                                var netHash = data.nethash;
+                                var dificult = data.difficulty;
+                                var dificult24 = data.difficulty24;
+                                netHash = (netHash / dificult) * dificult24;
+                                var hashPower = (poweMiner * 1e6) / netHash;
+                                var blockTime = data.block_time;
+                                var blockReward = data.block_reward24;
+                                var blocksPerMin = 60 / blockTime;
+                                var coinPermine = blocksPerMin * blockReward;
+                                var ganho = hashPower * coinPermine;
+                                var ganhoDia = ganho * 60 * 24;
+                                var resulGanho = ganhoDia.toFixed(6);
+                                $('#plus-saldo').val(resulGanho);
+                                $('#ganho_Dia').text(resulGanho);
+                                var  semana = ganhoDia * 7;
+                                $('#semana_ganho').text(semana.toFixed(6));
+                                var  mesGanho = ganhoDia * 30;
+                                $('#mes_ganho').text(mesGanho.toFixed(6));
+                                var  anoGanho = ganhoDia * 365;
+                                $('#ano_ganho').text(anoGanho.toFixed(6));
+                                var  twoYear = ganhoDia * 730;
+                                $('#twoYear_ganho').text(twoYear.toFixed(6));
+                            }
+                        });
+                    })();
+                } else {
+                    (function MinerCalc() {
+                        $.ajax({
+                            type: 'GET',
+                            dataType: 'json',
+                            url: '/json-miner-zcash',
+                            success: function (data) {
+                                var netHash = data.nethash;
+                                var dificult = data.difficulty;
+                                var dificult24 = data.difficulty24;
+                                netHash = (netHash / dificult) * dificult24;
+                                var hashPower = (poweMiner * 1) / netHash;
+                                var blockTime = data.block_time;
+                                var blockReward = data.block_reward24;
+                                var blocksPerMin = 60 / blockTime;
+                                var coinPermine = blocksPerMin * blockReward;
+                                var ganho = hashPower * coinPermine;
+                                var ganhoDia = ganho * 60 * 24;
+                                var resulGanho = ganhoDia.toFixed(6);
+                                console.log(resulGanho + 'Zcash');
+                                $('#plus-saldo').val(resulGanho);
+                            }
+                        });
+                    })();
+                }
 
     </script>
 @endsection

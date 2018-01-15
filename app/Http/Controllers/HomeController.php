@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Movimentacao;
+use App\User;
 use Illuminate\Http\Request;
 use App\Clientes;
-
+use Illuminate\Support\Facades\Auth;
+use Validator;
 
 class HomeController extends Controller
 {
@@ -42,4 +44,34 @@ class HomeController extends Controller
 
         return view('home', compact('clientes','totalMinerado','totalPago'));
     }
+
+    public function novaSenha(){
+        $id = Auth::user()->id;
+        $user = User::find($id);
+        return view('nova-senha',compact('user'));
+    }
+
+    public function updateSenha(Request $request){
+        $id = Auth::user()->id;
+        $user = User::find($id);
+
+        $valida = Validator::make($request->all(), [
+           'name' => 'required',
+           'email' => 'required',
+        ]);
+
+        if ($valida->passes()) {
+            $user->name = $request->get('name');
+            $user->email = $request->get('email');
+            if ($request->get('password') != '') {
+                $user->password = bcrypt($request->get('password'));
+            }
+            $user->save();
+            $request->session()->flash('alert-success', 'Usuário Atualizado com sucesso!');
+        }else {
+            $request->session()->flash('alert-warning', $valida->errors() );
+        }
+        return back();
+    }
+
 }

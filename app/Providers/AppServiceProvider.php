@@ -20,14 +20,18 @@ class AppServiceProvider extends ServiceProvider
     public function boot(Dispatcher $events)
     {
         Schema::defaultStringLength(191);
+
             $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
+
                 $event->menu->add([
                     'text' => 'Andamento da mineração',
                     'url' => 'cliente/' . Auth::user()->cliente_id . '',
-                    'icon' => 'user',
+                    'icon' => 'server',
                     'icon_color' => 'gold-color',
-                    'can' => 'user'
+                    'can' => 'user',
                 ]);
+
+                $event->menu->add('Olá '. Auth::user()->name .'');
             });
     }
 
