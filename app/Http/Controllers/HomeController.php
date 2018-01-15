@@ -71,6 +71,7 @@ class HomeController extends Controller
         }else {
             $request->session()->flash('alert-warning', $valida->errors() );
         }
+
         return back();
     }
 
