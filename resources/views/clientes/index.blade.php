@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Cliente')
+@section('title', ' Cliente')
 
 @section('styles')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
@@ -29,7 +29,7 @@
                     <span class="info-box-text">Poder de Mineração</span>
                     <span class="info-box-number minerpower">
                         <input class="input_power_miner" @can('user', Auth::user()->type) disabled @endcan
-                        value="{{$cliente->power_miner}}"> {{$cliente->coin_name == 'Ethereum' ? 'MH/s' : 'ZH/s'}}
+                        value="{{$cliente->power_miner}}"> {{$cliente->coin_name == 'Ethereum' ? 'MH/s' : 'H/s'}}
                     </span>
                     <span title="Total Minerado" class="totMinerado">{{$totalMinerado}}</span>
                     <div class="cssload-tetrominos pull-right">
@@ -63,7 +63,8 @@
                 <span class="info-box-icon bg-red"><i class="fa fa-calendar"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Contrato</span>
-                    <span class="info-box-number">@if($cliente->date_plan != null){{$cliente->date_plan->diffForHumans()}}@endif</span>
+                    <span class="info-box-number">
+                       </span>
                     <input id="datepicker" @can('user', Auth::user()->type) disabled
                            @endcan value="{{$cliente->date_plan != null ? $cliente->date_plan->format('d/m/Y') : '01/01/2020'}}"/>
                 </div>
@@ -79,32 +80,37 @@
             <ul class="nav nav-tabs">
                 <li><h4><b><input @can('user', Auth::user()->type) disabled @endcan class="input_name"
                                   value="{{$cliente->name}}"></b></h4></li>
-                <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Movimentações</a></li>
-
-                @can('user')<li class=""><a href="#tab_4" data-toggle="tab" aria-expanded="false">Previsão de rendimento</a></li>
-                @endcan
-            @cannot('user', Auth::user()->type)
-                    <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Bloco de Notas</a></li>
-                    <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Gerar Usuário</a></li>
-                    <li style="width: 220px;margin: -8px;">
-                        <div class="input-group margin">
-                            <input type="text" id="plus-saldo" class="form-control" value="0.000000">
-                            <span class="input-group-btn">
+                @cannot('user', Auth::user()->type)
+                <li style="width: 180px;margin: -8px;">
+                    <div class="input-group margin">
+                        <input type="text" id="plus-saldo" class="form-control" value="0.000000">
+                        <span class="input-group-btn">
                             <button type="button" class="btn btn-success btn-flat"
-                                    id="btn-plus-saldo">Aumentar Saldo </button>
+                                    id="btn-plus-saldo">Adicionar</button>
                         </span>
-                        </div>
-                    </li>
-                    <li style="width: 185px;margin: -8px 15px">
-                        <div class="input-group margin">
-                            <input type="text" id="pagar" class="form-control" value="0.000000">
-                            <span class="input-group-btn">
+                    </div>
+                </li>
+                <li style="width: 160px;margin: -8px 5px">
+                    <div class="input-group margin">
+                        <input type="text" id="pagar" class="form-control" value="0.000000">
+                        <span class="input-group-btn">
                             <button type="button" class="btn btn-warning btn-flat" id="btn-pagar">Pagar </button>
                         </span>
-                        </div>
-                    </li>
-            </ul>
+                    </div>
+                </li>
+                @endcannot
+                <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true"><i class="fa fa-rss" aria-hidden="true"></i> Movimentações</a></li>
+
+                <li class=""><a href="#tab_4" data-toggle="tab" aria-expanded="false">
+                        <i class="fa fa-usd" aria-hidden="true"></i> Previsão de Rendimentos</a></li>
+
+            @cannot('user', Auth::user()->type)
+                    <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">
+                            <i class="fa fa-address-book" aria-hidden="true"></i> Notas</a></li>
+                    <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">
+                            <i class="fa fa-user-circle-o" aria-hidden="true"></i> Usuário</a></li>
             @endcannot
+            </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1">
                     <table id="movimentacoes" class="table table-bordered">
@@ -189,24 +195,45 @@
                                 <tr>
                                     <th>Ganho</th>
                                     <th>Total</th>
+                                    <th>$USD</th>
+                                    <th>R$:</th>
                                 </tr>
                                 <tr>
-                                    <td>Dia </td><td><span id="ganho_Dia"></span></td>
+                                    <td>Dia </td>
+                                    <td><span id="ganho_Dia"></span></td>
+                                    <td><span id="ganho_Dia_usd"></span></td>
+                                    <td><span id="ganho_Dia_br"></span></td>
                                 </tr>
                                 <tr>
-                                    <td>Semana </td><td><span id="semana_ganho"></span></td>
+                                    <td>Semana </td>
+                                    <td><span id="semana_ganho"></span></td>
+                                    <td><span id="semana_ganho_usd"></span></td>
+                                    <td><span id="semana_ganho_br"></span></td>
                                 </tr>
                                 <tr>
-                                    <td>Mês </td><td><span id="mes_ganho"></span></td>
+                                    <td>Mês </td>
+                                    <td><span id="mes_ganho"></span></td>
+                                    <td><span id="mes_ganho_usd"></span></td>
+                                    <td><span id="mes_ganho_br"></span></td>
                                 </tr>
                                 <tr>
-                                    <td>Ano </td><td><span id="ano_ganho"></span></td>
+                                    <td>Ano </td>
+                                    <td><span id="ano_ganho"></span></td>
+                                    <td><span id="ano_ganho_usd"></span></td>
+                                    <td><span id="ano_ganho_br"></span></td>
                                 </tr>
                                 <tr>
-                                    <td>2 Anos </td><td><span id="twoYear_ganho"></span></td>
+                                    <td>2 Anos </td>
+                                    <td><span id="twoYear_ganho"></span></td>
+                                    <td><span id="twoYear_ganho_usd"></span></td>
+                                    <td><span id="twoYear_ganho_br"></span></td>
                                 </tr>
                                 </tbody>
                             </table>
+                            <br>
+                            <p class="text-center">* As cotações acima são baseadas no valor <b>ATUAL</b> de venda da moeda.
+                                <br>Os valores devem ser utilizados SOMENTE para se ter uma BASE.</p>
+
                         </div>
                     </div>
                 </div>
@@ -223,7 +250,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.8.0/plugins/colorbutton/plugin.js"></script>
+    <script src="/js/script.js"></script>
 
     <script>
         this.MoedaMinerada = {{$cliente->coin_id}};
@@ -521,7 +548,7 @@
                                 var coinPermine = blocksPerMin * blockReward;
                                 var ganho = hashPower * coinPermine;
                                 var ganhoDia = ganho * 60 * 24;
-                                var resulGanho = ganhoDia.toFixed(6);
+                                resulGanho = ganhoDia.toFixed(6);
                                 $('#plus-saldo').val(resulGanho);
                                 $('#ganho_Dia').text(resulGanho);
                                 var  semana = ganhoDia * 7;
@@ -532,6 +559,8 @@
                                 $('#ano_ganho').text(anoGanho.toFixed(6));
                                 var  twoYear = ganhoDia * 730;
                                 $('#twoYear_ganho').text(twoYear.toFixed(6));
+                                getEthPrice();
+
                             }
                         });
                     })();
@@ -553,13 +582,25 @@
                                 var coinPermine = blocksPerMin * blockReward;
                                 var ganho = hashPower * coinPermine;
                                 var ganhoDia = ganho * 60 * 24;
-                                var resulGanho = ganhoDia.toFixed(6);
-                                console.log(resulGanho + 'Zcash');
+
+                                resulGanho = ganhoDia.toFixed(6);
                                 $('#plus-saldo').val(resulGanho);
+                                $('#ganho_Dia').text(resulGanho);
+                                var  semana = ganhoDia * 7;
+                                $('#semana_ganho').text(semana.toFixed(6));
+                                var  mesGanho = ganhoDia * 30;
+                                $('#mes_ganho').text(mesGanho.toFixed(6));
+                                var  anoGanho = ganhoDia * 365;
+                                $('#ano_ganho').text(anoGanho.toFixed(6));
+                                var  twoYear = ganhoDia * 730;
+                                $('#twoYear_ganho').text(twoYear.toFixed(6));
+                                getZcashPrice();
                             }
                         });
                     })();
                 }
+
+
 
     </script>
 @endsection

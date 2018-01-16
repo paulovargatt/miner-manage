@@ -146,11 +146,12 @@ input#datepicker {
 }
 
 .input_name {
-    margin: -4px 8px;
+    margin: -12px 8px;
     font-size: 1.2em;
     width: 261px;
     text-align: center;
-    border: 0px
+    border: 0px;
+    padding: 7px;
 }
 
 .totMinerado {
@@ -477,4 +478,14 @@ ul > li.header:nth-child(5), ul > li.header:nth-child(4) {
 
 .table_ganhos td, th {
     text-align: center
+}
+
+.nav-tabs li a {padding: 10px 6px;}
+
+table#movimentacoes{
+    font-size: 1.1em;
+}
+
+.table_users input{
+    padding: 5px;
 }
