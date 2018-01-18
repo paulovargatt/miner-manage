@@ -9,20 +9,37 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
+        <script src="https://use.edgefonts.net/black-ops-one.js"></script>
         <!-- Styles -->
         <style>
             html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
                 height: 100vh;
                 margin: 0;
+                background: linear-gradient(175deg, #0b362b, #222d32, #1a2226);
+                background-size: 600% 600%;
+                -webkit-animation: background 5s ease infinite;
+                -moz-animation: background 5s ease infinite;
+                animation: background 5s ease infinite;
+            }
+
+            @-webkit-keyframes background {
+                0%{background-position:0% 41%}
+                50%{background-position:100% 60%}
+                100%{background-position:0% 41%}
+            }
+            @-moz-keyframes background {
+                0%{background-position:0% 41%}
+                50%{background-position:100% 60%}
+                100%{background-position:0% 41%}
+            }
+            @keyframes background {
+                0%{background-position:0% 41%}
+                50%{background-position:100% 60%}
+                100%{background-position:0% 41%}
             }
 
             .full-height {
-                height: 100vh;
+                height: 20vh;
             }
 
             .flex-center {
@@ -41,53 +58,63 @@
                 top: 18px;
             }
 
-            .content {
+            .logo-font{
+                font-family: black-ops-one, sans-serif;
+                color: #FFDB17;
+                font-size: 3.5em;
+            }
+
+            .text-center{
                 text-align: center;
             }
 
-            .title {
-                font-size: 84px;
+            .animate
+            {
+                transition: all 0.1s;
+                -webkit-transition: all 0.1s;
             }
 
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
+            .action-button
+            {
+                position: relative;
+                padding: 8px 21px;
+                margin: 0px 10px 10px 0px;
+                border-radius: 5px;
+                font-family: 'Pacifico', cursive;
+                font-size: 19px;
+                color: #FFF;
                 text-decoration: none;
-                text-transform: uppercase;
             }
 
-            .m-b-md {
-                margin-bottom: 30px;
+            .blue
+            {
+                background-color: #3498DB;
+                border-bottom: 5px solid #2980B9;
+                text-shadow: 0px -2px #2980B9;
+            }
+
+            .action-button:active
+            {
+                transform: translate(0px,5px);
+                -webkit-transform: translate(0px,5px);
+                border-bottom: 3px solid #2980B9;
+                padding: 7px 20px;
+
             }
         </style>
     </head>
     <body>
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
-                </div>
             @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+            <div class="text-center">
+                <h1 class="logo-font">GRS Miner</h1>
+                <div class="box text-center">
+                    @auth
+                        <a href="{{ route('home') }}" class="action-button shadow animate blue logar">Dashboard</a>
+                    @else
+                        <a href="{{ route('login') }}" class="action-button shadow animate blue logar">Entrar</a>
+                    @endauth
                 </div>
             </div>
         </div>

@@ -168,6 +168,7 @@ return [
          * Package Service Providers...
          */
         Barryvdh\Cors\ServiceProvider::class,
+        \Sichikawa\LaravelSendgridDriver\MailServiceProvider::class,
 
         /*
          * Application Service Providers...

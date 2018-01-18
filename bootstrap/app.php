@@ -41,6 +41,10 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+$app->singleton('mail');
+$app->singleton('services');
+$app->register(Sichikawa\LaravelSendgridDriver\MailServiceProvider::class);
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application
