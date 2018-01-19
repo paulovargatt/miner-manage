@@ -15,7 +15,7 @@
             html, body {
                 height: 100vh;
                 margin: 0;
-                background: linear-gradient(-45deg, #013339, #005655, #212c31, #000000);
+                background: linear-gradient(-45deg, #013339, #001c2e, #212c31, #000000);
                 background-size: 400% 400%;
                 -webkit-animation: Gradient 15s ease infinite;
                 -moz-animation: Gradient 15s ease infinite;
@@ -80,7 +80,7 @@
 
             .logo-font{
                 font-family: black-ops-one, sans-serif;
-                color: #ffffff;
+                color: #FFDB17;
                 font-size: 3.5em;
             }
 
@@ -119,11 +119,13 @@
                 -webkit-transform: translate(0px,5px);
                 border-bottom: 3px solid #272727;
                 padding: 7px 20px;
-
             }
+            .particles-js-canvas-el{position: absolute}
         </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     </head>
     <body>
+    <div id="particles-js"></div>
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
             @endif
@@ -138,5 +140,11 @@
                 </div>
             </div>
         </div>
+        <script>
+            /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
+            particlesJS.load('particles-js', '/particles.json', function() {
+                console.log('callback - particles.js config loaded');
+            });
+        </script>
     </body>
 </html>
