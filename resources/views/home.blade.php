@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', '')
+@section('title', 'GRS Miner')
 
 @section('content_header')
     <div class="row">

@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Grs Miner</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -15,31 +15,51 @@
             html, body {
                 height: 100vh;
                 margin: 0;
-                background: linear-gradient(175deg, #0b362b, #222d32, #1a2226);
-                background-size: 600% 600%;
-                -webkit-animation: background 5s ease infinite;
-                -moz-animation: background 5s ease infinite;
-                animation: background 5s ease infinite;
+                background: linear-gradient(-45deg, #013339, #005655, #212c31, #000000);
+                background-size: 400% 400%;
+                -webkit-animation: Gradient 15s ease infinite;
+                -moz-animation: Gradient 15s ease infinite;
+                animation: Gradient 15s ease infinite;
             }
 
-            @-webkit-keyframes background {
-                0%{background-position:0% 41%}
-                50%{background-position:100% 60%}
-                100%{background-position:0% 41%}
+            @-webkit-keyframes Gradient {
+                0% {
+                    background-position: 0% 50%
+                }
+                50% {
+                    background-position: 100% 50%
+                }
+                100% {
+                    background-position: 0% 50%
+                }
             }
-            @-moz-keyframes background {
-                0%{background-position:0% 41%}
-                50%{background-position:100% 60%}
-                100%{background-position:0% 41%}
+
+            @-moz-keyframes Gradient {
+                0% {
+                    background-position: 0% 50%
+                }
+                50% {
+                    background-position: 100% 50%
+                }
+                100% {
+                    background-position: 0% 50%
+                }
             }
-            @keyframes background {
-                0%{background-position:0% 41%}
-                50%{background-position:100% 60%}
-                100%{background-position:0% 41%}
+
+            @keyframes Gradient {
+                0% {
+                    background-position: 0% 50%
+                }
+                50% {
+                    background-position: 100% 50%
+                }
+                100% {
+                    background-position: 0% 50%
+                }
             }
 
             .full-height {
-                height: 20vh;
+                height: 80vh;
             }
 
             .flex-center {
@@ -60,7 +80,7 @@
 
             .logo-font{
                 font-family: black-ops-one, sans-serif;
-                color: #FFDB17;
+                color: #ffffff;
                 font-size: 3.5em;
             }
 
@@ -88,16 +108,16 @@
 
             .blue
             {
-                background-color: #3498DB;
-                border-bottom: 5px solid #2980B9;
-                text-shadow: 0px -2px #2980B9;
+                background-color: #272727;
+                border-bottom: 5px solid #171717;
+                text-shadow: 0px -2px #000000;
             }
 
             .action-button:active
             {
                 transform: translate(0px,5px);
                 -webkit-transform: translate(0px,5px);
-                border-bottom: 3px solid #2980B9;
+                border-bottom: 3px solid #272727;
                 padding: 7px 20px;
 
             }
