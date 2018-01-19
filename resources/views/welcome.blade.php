@@ -81,7 +81,7 @@
 
             .logo-font{
                 font-family: black-ops-one, sans-serif;
-                color: #FFDB17;
+                color: #f0f4f7;
                 font-size: 3.5em;
             }
 
@@ -109,10 +109,11 @@
 
             .blue
             {
-                background-color: #e2e2e2;
+                background-color: #f0f4f7;
                 border-bottom: 5px solid #b9b9b9;
                 font-weight: 700;
-                color: #011a1c;
+                color: #000000;
+                font-size: 1.2em;
             }
 
             .action-button:active
