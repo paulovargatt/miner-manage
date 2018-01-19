@@ -9,13 +9,14 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
         <script src="https://use.edgefonts.net/black-ops-one.js"></script>
         <!-- Styles -->
         <style>
             html, body {
                 height: 100vh;
                 margin: 0;
-                background: linear-gradient(-45deg, #013339, #001c2e, #212c31, #000000);
+                background: linear-gradient(-45deg, #000000, #011e20, #212c31, #000000);
                 background-size: 400% 400%;
                 -webkit-animation: Gradient 15s ease infinite;
                 -moz-animation: Gradient 15s ease infinite;
@@ -100,7 +101,7 @@
                 padding: 8px 21px;
                 margin: 0px 10px 10px 0px;
                 border-radius: 5px;
-                font-family: 'Pacifico', cursive;
+                font-family: 'Open Sans', sans-serif;
                 font-size: 19px;
                 color: #FFF;
                 text-decoration: none;
@@ -108,9 +109,10 @@
 
             .blue
             {
-                background-color: #272727;
-                border-bottom: 5px solid #171717;
-                text-shadow: 0px -2px #000000;
+                background-color: #e2e2e2;
+                border-bottom: 5px solid #b9b9b9;
+                font-weight: 700;
+                color: #011a1c;
             }
 
             .action-button:active
