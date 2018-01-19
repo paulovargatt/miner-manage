@@ -44,6 +44,8 @@ class enviaEmaildeDefinicaodeSenha extends Notification
 
         $url = env('APP_URL').'/password/reset/'.$this->token;
         return (new MailMessage)
+            ->from('pvargatt@gmail.com', 'GRS Miner')
+            ->subject('GRS Miner - Recuperação de Senha')
             ->greeting('Olá')
             ->line('Você está recebendo este e-mail porque recebemos um pedido de redefinição de senha para sua conta.')
             ->action('Redefinir senha', url(config('app.url').route('password.reset', $this->token, false)))

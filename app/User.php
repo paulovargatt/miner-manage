@@ -32,4 +32,9 @@ class User extends Authenticatable
     {
         $this->notify(new enviaEmaildeDefinicaodeSenha($token));
     }
+
+    public function routeNotificationForMail()
+    {
+        return $this->email;
+    }
 }
