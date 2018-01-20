@@ -33,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
 
                 $event->menu->add('Olá '. Auth::user()->name .'');
             });
+            \Carbon\Carbon::setLocale('pt_BR');
     }
 
     public function register()

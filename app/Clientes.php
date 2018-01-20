@@ -11,7 +11,8 @@ class Clientes extends Model
         'date_plan',
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
+        'date_pagamento'
     ];
 
    public function Moeda(){

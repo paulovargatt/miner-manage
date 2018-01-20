@@ -43,4 +43,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('json-miner', 'ClientesController@getJsonMiner');
     Route::get('json-miner-zcash', 'ClientesController@getJsonMinerZcash');
 
+    /*Charts*/
+    Route::get('/get-top-miners', 'HomeController@getTopMiners')->middleware('can:admin');;
+    Route::get('/get-top-miners-zcash', 'HomeController@getTopMinerZcash')->middleware('can:admin');;
+
+
 });

@@ -21,8 +21,8 @@ class CreateClientesTable extends Migration
             $table->double('power_miner',10,2);
             $table->decimal('balance',16,6)->default('0.000000');
             $table->text('desc')->nullable();
-            $table->timestamp('date_plan')->default('2020-01-01 00:02:00');
-            $table->timestamp('date_pagamento')->default('2019-01-01 00:02:00');
+            $table->timestamp('date_plan')->nullable()->default('2020-01-01 00:02:00');
+            $table->timestamp('date_pagamento')->nullable()->default('2019-01-01 00:02:00');
             $table->timestamps();
         });
     }

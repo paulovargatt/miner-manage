@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Movimentacao;
 use App\User;
+use Faker\Provider\DateTime;
 use Illuminate\Http\Request;
 use App\Clientes;
 use Illuminate\Support\Facades\Auth;
@@ -42,7 +43,13 @@ class HomeController extends Controller
             $totalMinerado += $mov->minerado;
         }
 
-        return view('home', compact('clientes','totalMinerado','totalPago'));
+        $datesPagamento = Clientes::select('id','date_pagamento','name')
+            ->limit('6')
+            ->orderBy('date_pagamento','ASC')
+            ->get();
+
+
+        return view('home', compact('clientes','totalMinerado','totalPago','datesPagamento'));
     }
 
     public function novaSenha(){
@@ -74,5 +81,21 @@ class HomeController extends Controller
 
         return back();
     }
+
+    public function getTopMiners(){
+        $clientes = Clientes::select('name as label', 'power_miner as value')
+                    ->where('coin_id', '=', 1)
+                    ->get();
+       $tot = $clientes->toJson();
+        return $tot;
+    }
+    public function getTopMinerZcash(){
+        $clientes = Clientes::select('name as label', 'power_miner as value')
+                    ->where('coin_id', '=', 2)
+                    ->get();
+       $tot = $clientes->toJson();
+        return $tot;
+    }
+
 
 }

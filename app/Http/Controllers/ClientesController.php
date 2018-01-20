@@ -56,6 +56,7 @@ class ClientesController extends Controller
         $cliente->coin_id = $request->get('plan');
         $cliente->power_miner = $request->get('power_miner');
         $cliente->date_plan = Carbon::createFromFormat('d/m/Y', $request->get('date'));
+        $cliente->date_pagamento = Carbon::createFromFormat('d/m/Y', $request->get('date_pagamento'));
         $cliente->name = $request->get('name');
         $cliente->update();
         $ret = array('status' => 'success',

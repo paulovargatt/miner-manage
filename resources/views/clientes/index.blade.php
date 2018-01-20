@@ -71,8 +71,9 @@
                     <span class="info-box-text">Prox. Pagamento</span>
                     <span class="info-box-number">
                        </span>
-                    <input id="datepagamento" @can('user', Auth::user()->type) disabled
-                           @endcan value="{{$cliente->date_plan != null ? $cliente->date_plan->format('d/m/Y') : 'A VER'}}"/>
+                    <input id="datepagamento"
+                    @can('user', Auth::user()->type) disabled
+                    @endcan value="{{$cliente->date_pagamento != null ? $cliente->date_pagamento->format('d/m/Y') : '01/01/2020'}}"/>
                 </div>
             </div>
         </div>
@@ -195,7 +196,7 @@
                     <div class="row">
                         <div class="container" style="padding: 0px 25px;">
                             <h3 class="text-center">Previsão de rendimentos</h3>
-                            <h4 class="text-center">Poder de mineração atual: {{$cliente->power_miner}}</h4>
+                            <h4 class="text-center">Poder de mineração atual: <b>{{$cliente->power_miner}}</b></h4>
                             <table class="table table-bordered table_ganhos" style="width: 100%; margin: 0 auto;">
                                 <tbody>
                                 <tr>
@@ -208,31 +209,31 @@
                                     <td>Dia </td>
                                     <td><span id="ganho_Dia"></span></td>
                                     <td><span id="ganho_Dia_usd"></span></td>
-                                    <td><span id="ganho_Dia_br"></span></td>
+                                    <td><span class="text-green" id="ganho_Dia_br"></span></td>
                                 </tr>
                                 <tr>
                                     <td>Semana </td>
                                     <td><span id="semana_ganho"></span></td>
                                     <td><span id="semana_ganho_usd"></span></td>
-                                    <td><span id="semana_ganho_br"></span></td>
+                                    <td><span class="text-green" id="semana_ganho_br"></span></td>
                                 </tr>
                                 <tr>
                                     <td>Mês </td>
                                     <td><span id="mes_ganho"></span></td>
                                     <td><span id="mes_ganho_usd"></span></td>
-                                    <td><span id="mes_ganho_br"></span></td>
+                                    <td><span class="text-green" id="mes_ganho_br"></span></td>
                                 </tr>
                                 <tr>
                                     <td>Ano </td>
                                     <td><span id="ano_ganho"></span></td>
                                     <td><span id="ano_ganho_usd"></span></td>
-                                    <td><span id="ano_ganho_br"></span></td>
+                                    <td><span class="text-green" id="ano_ganho_br"></span></td>
                                 </tr>
                                 <tr>
                                     <td>2 Anos </td>
                                     <td><span id="twoYear_ganho"></span></td>
                                     <td><span id="twoYear_ganho_usd"></span></td>
-                                    <td><span id="twoYear_ganho_br"></span></td>
+                                    <td><span class="text-green" id="twoYear_ganho_br"></span></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -277,11 +278,17 @@
                 autoclose: true
             });
 
+            $('#datepagamento').datepicker({
+                format: 'dd/mm/yyyy',
+                autoclose: true
+            });
+
 
             $('.content-header, .input_name').on('change', function () {
                 var plan = $('#plan option:selected').attr('id');
                 var power_miner = $('.input_power_miner').val();
                 var datepicker = $('#datepicker').val();
+                var datepagamento = $('#datepagamento').val();
                 $.ajax({
                     url: 'update-cliente/{{$cliente->id}}',
                     method: "POST",
@@ -291,6 +298,7 @@
                         "plan": plan,
                         "power_miner": power_miner,
                         "date": datepicker,
+                        "date_pagamento": datepagamento,
                         "name": $('.input_name').val()
                     },
                     beforeSend: function () {
