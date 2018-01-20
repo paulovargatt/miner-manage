@@ -62,11 +62,17 @@
             <div class="info-box">
                 <span class="info-box-icon bg-red"><i class="fa fa-calendar"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Contrato</span>
+                    <span class="info-box-text">Venc. Contrato</span>
                     <span class="info-box-number">
                        </span>
                     <input id="datepicker" @can('user', Auth::user()->type) disabled
                            @endcan value="{{$cliente->date_plan != null ? $cliente->date_plan->format('d/m/Y') : '01/01/2020'}}"/>
+
+                    <span class="info-box-text">Prox. Pagamento</span>
+                    <span class="info-box-number">
+                       </span>
+                    <input id="datepagamento" @can('user', Auth::user()->type) disabled
+                           @endcan value="{{$cliente->date_plan != null ? $cliente->date_plan->format('d/m/Y') : 'A VER'}}"/>
                 </div>
             </div>
         </div>

@@ -133,8 +133,18 @@ input#datepicker {
     border: 0px;
     cursor: pointer;
     font-weight: bold;
-    font-size: 1.4em;
+    font-size: 1.1em;
     width: 114px;
+    margin: -2px 0px;
+}
+
+input#datepagamento {
+    border: 0px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1em;
+    width: 114px;
+    margin: -2px 0px;
 }
 
 .td_desc {
