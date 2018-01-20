@@ -14,10 +14,10 @@
                 </a>
                 <div class="box-footer no-padding">
                     <ul class="nav nav-stacked">
-                        <li>Moeda Principal<span class="pull-right badge bg-blue">{{$cliente->coin_name}}</span></li>
+                        <li>Moeda Principal<span class="pull-right badge bg-blue">{{$cliente->coin_id == 1 ? 'Ethereum' : 'Zcash'}}</span></li>
                         <li>Poder de mineração<span class="pull-right badge bg-aqua">{{$cliente->power_miner}}
-                                M/Hs</span></li>
-                        <li>Saldo<span class="pull-right badge bg-green">{{$cliente->balance}} ETH</span></li>
+                                {{$cliente->coin_id == 1 ? 'M/Hs' : 'H/s'}}</span></li>
+                        <li>Saldo<span class="pull-right badge bg-green">{{$cliente->balance}} {{$cliente->coin_id == 1 ? 'ETH' : 'Zec'}}</span></li>
                         <li>Data:<span
                                     class="pull-right badge bg-red">{{$cliente->date_plan->diffForHumans() .' - '. $cliente->date_plan->format('d/m/Y')}}</span>
                         </li>
