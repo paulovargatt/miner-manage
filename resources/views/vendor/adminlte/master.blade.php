@@ -29,7 +29,7 @@
 
     @if(config('adminlte.plugins.datatables'))
         <!-- DataTables -->
-        <link rel="stylesheet" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.15/css/dataTables.bootstrap.min.css">
     @endif
 
     @yield('adminlte_css')
@@ -55,12 +55,12 @@
 
 @if(config('adminlte.plugins.select2'))
     <!-- Select2 -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 @endif
 
 @if(config('adminlte.plugins.datatables'))
     <!-- DataTables -->
-    <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.15/js/jquery.dataTables.min.js"></script>
 @endif
 
 @yield('adminlte_js')
