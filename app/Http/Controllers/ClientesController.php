@@ -155,4 +155,16 @@ class ClientesController extends Controller
         return response()->json($ret);
     }
 
+    public function delete(Request $request) {
+        $IdCli = $request->get('clientId');
+        $clientes = Clientes::find($IdCli);
+        $clientes->delete();
+        $ret = array(
+            'status' => 'success',
+            'msg' => 'Cliente Deletado com sucesso!'
+        );
+        return response()->json($ret);
+
+    }
+
 }

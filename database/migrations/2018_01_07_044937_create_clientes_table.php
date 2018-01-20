@@ -23,6 +23,7 @@ class CreateClientesTable extends Migration
             $table->text('desc')->nullable();
             $table->timestamp('date_plan')->nullable()->default('2020-01-01 00:02:00');
             $table->timestamp('date_pagamento')->nullable()->default('2019-01-01 00:02:00');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

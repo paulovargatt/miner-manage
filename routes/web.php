@@ -37,6 +37,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/cliente/movimenta/{id}', 'MovimentacaoController@movimentaCliente')->middleware('can:admin');;
     Route::post('/cliente/movimenta-pagamento/{id}', 'MovimentacaoController@movimentaPagamentoCliente')->middleware('can:admin');;
     Route::get('/cliente/get-json-movimentacoes/{id}', 'MovimentacaoController@jsonMovimentacoes');
+    Route::post('/cliente/delete', 'ClientesController@delete');
 
 
     /*Miner GET Jsons What to Miner*/

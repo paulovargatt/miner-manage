@@ -246,6 +246,7 @@
                 </div>
             </div>
         </div>
+        @cannot('user', Auth::user()->type)<span class="pull-right btn btn-danger btn-xs" id="deleteCliente">Deletar Cliente</span>@endcannot
     </div>
 
 
@@ -526,6 +527,30 @@
                 CKEDITOR.config.height = 300;
                 //  CKEDITOR.config.extraPlugins = 'colorbutton';
             });
+
+            $(document).on('click', '#deleteCliente', function () {
+                var alerta = confirm(" Você tem certeza ? ");
+
+                if (alerta == true) {
+                    $.ajax({
+                        type: 'post',
+                        dataType: 'json',
+                        url: 'delete',
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            "clientId": clienteId
+                        },
+                        beforeSend: function () {
+                            $('#loader').fadeIn();
+                        },
+                        success: function () {
+                            window.location="../home"
+                        }
+                    });
+                }
+            })
+
+
         }
 
                 @endif
@@ -613,8 +638,6 @@
                         });
                     })();
                 }
-
-
 
     </script>
 @endsection
