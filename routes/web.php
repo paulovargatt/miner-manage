@@ -18,7 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/home', 'HomeController@index')->name('home')->middleware('can:admin');
+    Route::get('/home', 'HomeController@index')->name('home');
     /*Clientes*/
     Route::get('/cliente/todos', 'ClientesController@allClients')->middleware('can:admin');
     Route::get('/cliente/cadastro', 'ClientesController@cadastrarCliente')->middleware('can:admin');;

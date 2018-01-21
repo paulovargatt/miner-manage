@@ -8,6 +8,7 @@ use Faker\Provider\DateTime;
 use Illuminate\Http\Request;
 use App\Clientes;
 use Illuminate\Support\Facades\Auth;
+use Gate;
 use Validator;
 
 class HomeController extends Controller
@@ -47,6 +48,12 @@ class HomeController extends Controller
             ->limit('6')
             ->orderBy('date_pagamento','ASC')
             ->get();
+
+        if (Gate::allows('user', Auth::user()->type)) {
+            if (Auth::user()->cliente_id != 10) {
+                return back();
+            }
+        }
 
 
         return view('home', compact('clientes','totalMinerado','totalPago','datesPagamento'));
