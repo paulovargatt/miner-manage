@@ -197,7 +197,7 @@
 @section('scripts')
     <script>
         var API = 'https://api.coinmarketcap.com/v1/ticker/';
-        var ApiUSD = 'http://api.promasters.net.br/cotacao/v1/valores?moedas=USD&alt=json';
+        // var ApiUSD = 'http://api.promasters.net.br/cotacao/v1/valores?moedas=USD&alt=json';
         var btc = 'bitcoin';
         var eth = 'ethereum';
 
