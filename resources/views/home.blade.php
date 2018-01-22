@@ -36,6 +36,13 @@
             font-weight: bold;
             font-size: 1.2em!important;
         }
+
+        #charteth, #chartzec {
+            width: 100%;
+            height: 300px;
+        }
+        #charteth > div > div > a, #chartzec > div > div > a {
+            display: none!important;}
     </style>
 @endsection
 
@@ -109,31 +116,29 @@
             </div>
         </div>
 
-        <div class="col-lg-6 col-xs-6">
+        <div class="col-lg-6 col-xs-12">
             <div class="small-box bg-blue">
                 <div class="inner">
-                    <h3>Top Mineradores
-                        <sup style="font-size: 20px"></sup></h3>
-                    <div class="col-md-6">
-                        <h5 class="text-center topMinersTitle">Ethereum</h5>
-                        <span class="totEthMiner"></span>
-                        <div id="topMiners"></div>
+                    <h3>Top Mineradores<sup style="font-size: 20px"></sup></h3>
+                    <div class="col-md-6" style="padding: 0px">
+                        <span class="totEthMiner" style="position: relative;top: 11px;"></span>
+                        {{--<div id="topMiners"></div>--}}
+                        <div id="charteth"></div>
                     </div>
 
-                    <div class="col-md-6">
-                        <h5 class="text-center topMinersTitle">ZCash</h5>
-                        <span class="totZcashMiner"></span>
-                        <div id="topMinersZcash"></div>
+                    <div class="col-md-6" style="padding: 0px">
+                        <span class="totZcashMiner" style="position: relative;top: 11px;"></span>
+                        <div id="chartzec"></div>
                     </div>
-
                 </div>
                 <div class="icon">
                     <i class="fa fa-trophy"></i>
                 </div>
-            </div>
+        </div>
         </div>
 
-        <div class="col-lg-6 col-xs-6">
+
+        <div class="col-lg-6 col-xs-12">
             <div class="small-box bg-blue">
                 <div class="inner">
                     <h3>Próximos Pagamentos<sup style="font-size: 20px"></sup></h3>
@@ -246,9 +251,17 @@
         GetMoeda(eth);
     </script>
 
-    <script src="https://adminlte.io/themes/AdminLTE/bower_components/raphael/raphael.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+    <script src="https://www.amcharts.com/lib/3/pie.js"></script>
+    <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+
     <script>
+
+
+
+
+
+
 
         (function TopMinerEth() {
             $.ajax({
@@ -256,14 +269,37 @@
                 method: "GET",
                 dataType: "JSON",
                 success: function (data) {
-                    Morris.Donut({
-                        element: 'topMiners',
-                        data: data,
-                        colors: [
-                            '#222D32'
+                    var chart = AmCharts.makeChart("charteth", {
+                        "type": "pie",
+                        "theme": "light",
+                        "angle": 12,
+                        "depth3D": 15,
+                        "labelText": "",
+                        "dataProvider": data,
+                        "valueField": "value",
+                        "titleField": "label",
+                        "titles": [
+                            {
+                                "id": "Ethereum",
+                                "text": "Ethereum"
+                            }
                         ],
-                        backgroundColor: '#fff',
-                        labelColor: '#0073B7',
+                        "balloon": {
+                            "fixedPosition": true
+                        },
+                        "colors": [
+                            "#222D32",
+                            "#CC4748",
+                            "#2F4074",
+                            "#448E4D",
+                            "#cd82ad",
+                            "#B9783F",
+                            "#448e4d",
+                            "#b7b83f",
+                            "#b9783f",
+                            "#b93e3d",
+                            "#913167"
+                        ],
                     });
                     var tot = 0
                     for (var i = 0; i< data.length; i++){
@@ -280,12 +316,24 @@
                 method: "GET",
                 dataType: "JSON",
                 success: function (data) {
-                    Morris.Donut({
-                        element: 'topMinersZcash',
-                        data: data,
-                        colors: [
-                            '#222D32'
-                        ]
+                    var chart = AmCharts.makeChart("chartzec", {
+                        "type": "pie",
+                        "theme": "light",
+                        "angle": 12,
+                        "depth3D": 15,
+                        "labelText": "",
+                        "dataProvider": data,
+                        "valueField": "value",
+                        "titleField": "label",
+                        "titles": [
+                            {
+                                "id": "Zcash",
+                                "text": "Zcash"
+                            }
+                        ],
+                        "balloon": {
+                            "fixedPosition": true
+                        }
                     });
                     var tot = 0
                     for (var i = 0; i< data.length; i++){
@@ -295,8 +343,6 @@
                 }
             });
         })();
-
-
 
 
 
