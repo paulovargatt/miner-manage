@@ -30,7 +30,7 @@ return [
     |
     */
 
-    'logo' => ' <b>GRS</b> Miner',
+    'logo' => ' <b>GRS</b> Miners',
 
     'logo_mini' => '<b>G</b>M',
 
