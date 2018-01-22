@@ -213,17 +213,6 @@
         };
 
 
-        GetDolar = function () {
-            $.ajax({
-                url: ApiUSD,
-                method: "GET",
-                dataType: "JSON",
-                success: function (data) {
-                    USD = data.valores.USD.valor;
-                }
-            });
-        };
-        GetDolar();
 
         GetMoeda = function (coin) {
             $.ajax({
