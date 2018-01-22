@@ -229,10 +229,10 @@
                     var ValueCoin = data[0].price_usd;
                     $('#preco' + coin + '').append(ValueCoin);
 
-                    setTimeout(function () {
-                        var calcUSD = ValueCoin * USD;
-                        $('#rs-' + coin + '').append(calcUSD.toFixed(2));
-                    }, 3500);
+                    // setTimeout(function () {
+                    //     var calcUSD = ValueCoin * USD;
+                    //     $('#rs-' + coin + '').append(calcUSD.toFixed(2));
+                    // }, 3500);
                 }
             });
         };
