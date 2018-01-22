@@ -133,7 +133,7 @@
             @if (Route::has('login'))
             @endif
             <div class="text-center">
-                <h1 class="logo-font">GRS Miner</h1>
+                <h1 class="logo-font">GRS Miners</h1>
                 <div class="box text-center">
                     @auth
                         <a href="{{ route('home') }}" class="action-button shadow animate blue logar">Dashboard</a>
