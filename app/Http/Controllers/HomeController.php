@@ -49,12 +49,12 @@ class HomeController extends Controller
             ->orderBy('date_pagamento','ASC')
             ->get();
 
+
         if (Gate::allows('user', Auth::user()->type)) {
             if (Auth::user()->cliente_id != 10) {
-                return back();
+                return redirect('cliente/'.Auth::user()->cliente_id);
             }
         }
-
 
         return view('home', compact('clientes','totalMinerado','totalPago','datesPagamento'));
     }
