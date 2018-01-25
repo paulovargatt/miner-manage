@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
+use function MongoDB\BSON\toJSON;
 Use Yajra\DataTables\DataTables;
 use Gate;
 
@@ -172,14 +173,26 @@ class ClientesController extends Controller
 
       $clientes = Clientes::select('power_miner','balance')->where('coin_id',1)->get();
 
+        $url = urldecode("https://whattomine.com/coins/151.json");
+        $json = json_decode(file_get_contents($url), true);
 
-      $new = '';
-      foreach ($clientes as $cli) {
-         $new .= $cli->power_miner;
-      }
 
-      return $new;
+        foreach ($clientes as $calcCliente) {
 
+            $netHash = $json['nethash'];
+            $dificult = $json['difficulty'];
+            $dificult24 = $json['difficulty24'];
+            $netHashCalc = ($netHash / $dificult) * $dificult24;
+            $hashPower = ($calcCliente->power_miner * 1e6) / $netHashCalc;
+            $blockTime = $json['block_time'];
+            $blockReward = $json['block_reward24'];
+            $blocksPerMin = 60 / $blockTime;
+            $coinPermine = $blocksPerMin * $blockReward;
+            $ganho = $hashPower * $coinPermine;
+            $ganhoDia = $ganho * 60 * 24;
+
+            echo ' Ganho dia com '. $calcCliente->power_miner .'  = ' . $ganhoDia;
+        }
 
     }
 
