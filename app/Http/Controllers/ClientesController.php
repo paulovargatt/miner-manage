@@ -167,4 +167,20 @@ class ClientesController extends Controller
 
     }
 
+
+    public function listEth (){
+
+      $clientes = Clientes::select('power_miner','balance')->where('coin_id',1)->get();
+
+
+      $new = '';
+      foreach ($clientes as $cli) {
+         $new .= $cli->power_miner;
+      }
+
+      return $new;
+
+
+    }
+
 }
