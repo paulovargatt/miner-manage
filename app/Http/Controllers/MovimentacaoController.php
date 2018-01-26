@@ -29,7 +29,7 @@ class MovimentacaoController extends DataTables
          Saldo Anterior <span class="text-red">'.$saldoAnterior.' </span>
          Novo Saldo:  <span class="text-blue">'. $total . '</span>';
 
-        $movimentacao->save();
+        $movimentacao->create();
 
         $ret = array('status' => 'success',
             'msg' => 'Atualizado');
