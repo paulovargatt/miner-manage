@@ -28,8 +28,7 @@ class MovimentacaoController extends DataTables
          Poder de Mineração: <span class="text-navy">'.$power.'</span>
          Saldo Anterior <span class="text-red">'.$saldoAnterior.' </span>
          Novo Saldo:  <span class="text-blue">'. $total . '</span>';
-
-        $movimentacao->create();
+        $movimentacao->save();
 
         $ret = array('status' => 'success',
             'msg' => 'Atualizado');

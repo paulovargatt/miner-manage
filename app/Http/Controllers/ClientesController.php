@@ -170,8 +170,7 @@ class ClientesController extends Controller
 
 
     public function listEth (){
-
-      $clientes = Clientes::where('coin_id',1)->get();
+        $clientes = Clientes::where('coin_id',1)->get();
         $url = urldecode("https://whattomine.com/coins/151.json");
         $json = json_decode(file_get_contents($url), true);
         foreach ($clientes as $calcCliente) {
@@ -194,7 +193,7 @@ class ClientesController extends Controller
 
             Movimentacao::mineraCliente($clienteId,$newSaldo,$saldoAnterior,$powerCli);
             Clientes::updateBalance($clienteId,$newSaldo);
-           // echo 'Foi minerado por: '. $calcCliente->name. ' Power: '.$powerCli . ' '. $newSaldo . ' Data:' . Date('d/m/Y') .'<br>';
+            echo 'Foi minerado por: '. $calcCliente->name. ' Power: '.$powerCli . ' '. $newSaldo . ' Data:' . Date('d/m/Y') .'<br>';
         }
 
     }
