@@ -26,8 +26,7 @@ class Kernel extends ConsoleKernel
     {
 
         $schedule->command('MineraEthereumClientes:miner-eth')
-                 ->everyMinute();
-
+                 ->daily();
         // $schedule->command('inspire')
         //          ->hourly();
     }
