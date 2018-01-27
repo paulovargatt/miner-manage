@@ -1,0 +1,208 @@
+ html, body {
+     height: 1vh;
+     margin: 0;
+     background: linear-gradient(-45deg, #000000, #011e20, #212c31, #000000);
+     background-size: 400% 400%;
+     -webkit-animation: Gradient 15s ease infinite;
+     -moz-animation: Gradient 15s ease infinite;
+     animation: Gradient 15s ease infinite;
+ }
+
+ td, tr, th {
+     text-align: center;
+ }
+
+@-webkit-keyframes Gradient {
+    0% {
+        background-position: 0% 50%
+    }
+    50% {
+        background-position: 100% 50%
+    }
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+@-moz-keyframes Gradient {
+    0% {
+        background-position: 0% 50%
+    }
+    50% {
+        background-position: 100% 50%
+    }
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+@keyframes Gradient {
+    0% {
+        background-position: 0% 50%
+    }
+    50% {
+        background-position: 100% 50%
+    }
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+.full-height {
+    height: 28vh;
+}
+
+.flex-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.position-ref {
+    position: relative;
+}
+
+.top-right {
+    position: absolute;
+    right: 10px;
+    top: 18px;
+}
+
+.logo-font{
+    font-family: black-ops-one, sans-serif;
+    color: #f0f4f7;
+    font-size: 3.5em;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.animate
+{
+    transition: all 0.1s;
+    -webkit-transition: all 0.1s;
+}
+
+.action-button
+{
+    position: relative;
+    padding: 5px 13px;
+    margin: 0px 10px 10px 0px;
+    border-radius: 5px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 19px;
+    color: #FFF;
+    text-decoration: none;
+}
+
+.blue
+{
+    background-color: #f0f4f7;
+    border-bottom: 5px solid #b9b9b9;
+    font-weight: 700;
+    color: #000000;
+    font-size: 0.9em;
+}
+
+.action-button:active
+{
+    transform: translate(0px,5px);
+    -webkit-transform: translate(0px,5px);
+    border-bottom: 3px solid #272727;
+    padding: 7px 20px;
+}
+.particles-js-canvas-el{position: absolute}
+
+.opens{
+    font-family: 'Open Sans', sans-serif;
+}
+
+ .loginbtn {
+     float: right;
+     margin: 30px;
+     position: absolute;
+     left: 88%;
+     z-index: 5;
+ }
+
+.box h3{
+    color: #fff;
+    font-size: 1.3em;
+}
+.box p {
+    color: #fff;
+    font-size: 1.2em;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.box-table{
+    box-shadow: 0px 0px 15px #fff;
+    border-radius: 6px;
+    z-index: 8;
+    position: relative;
+}
+
+.destGanho{
+    font-size: 1.3em!important;
+    color: #28a745;
+    font-weight: bold;
+}
+
+ .table td, .table th {
+     border-top: 1px solid #000c0c0a!important;
+ }
+
+
+
+ @media (max-width: 980px){
+     .logo-font {
+         font-family: black-ops-one, sans-serif;
+         color: #f0f4f7;
+         font-size: 2.7em;
+         margin-top: -102px;
+     }
+
+     .loginbtn {
+         position: relative;
+         z-index: 5;
+         top: 82px;
+         margin: 15px;
+         text-align: center;
+         float: inherit;
+         left: 0%;
+     }
+
+     .action-button{
+         position: relative;
+         top: 86px;
+     }
+ }
+
+ @media (max-width: 600px)
+ {
+     .logo-font {
+         font-family: black-ops-one, sans-serif;
+         color: #f0f4f7;
+         font-size: 2.2em;
+         margin-top: -102px;
+     }
+
+     .loginbtn {
+         position: relative;
+         z-index: 5;
+         top: 82px;
+         margin: 15px;
+         text-align: center;
+         float: inherit;
+         left: 0%;
+     }
+
+     .action-button{
+         position: relative;
+         top: 86px;
+     }
+ }
