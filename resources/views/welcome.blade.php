@@ -40,11 +40,15 @@
                                                               src="https://i.imgur.com/VYxxsMQ.png"></h4>
     <div class="row">
         <div class="col-md-4 text-center" style="margin-top: 33px">
-            <h4 class="bold text-success">Plano de: 10MH/S</h4>
+            <h4 class="bold text-secondary">Plano de: 10MH/S</h4>
             <p class="opens bold" style="margin-top: 5px;font-size: 0.9em;"> Invista R$: 990,00</p>
             <p class="opens bold" style="margin-top: -16px;font-size: 0.9em;"> Ganhe: <span
                         id="twoYear_ganho_br_span"></span></p>
             <button class="btn btn-success" style="z-index: 9; position: relative">Contratar</button>
+            <a mp-mode="dftl" href="https://www.mercadopago.com/mlb/checkout/start?pref_id=35797019-a4843026-ffa2-4ace-8c1e-57a910eca489" name="MP-payButton" class='blue-ar-l-rn-none'>Pagar</a>
+            <script type="text/javascript">
+                (function(){function $MPC_load(){window.$MPC_loaded !== true && (function(){var s = document.createElement("script");s.type = "text/javascript";s.async = true;s.src = document.location.protocol+"//secure.mlstatic.com/mptools/render.js";var x = document.getElementsByTagName('script')[0];x.parentNode.insertBefore(s, x);window.$MPC_loaded = true;})();}window.$MPC_loaded !== true ? (window.attachEvent ?window.attachEvent('onload', $MPC_load) : window.addEventListener('load', $MPC_load, false)) : null;})();
+            </script>
             <br>
             <small>Em até 10x</small>
             <br>
@@ -139,8 +143,7 @@
     particlesJS.load('particles-js', '/particles.json', function () {
         console.log('callback - particles.js config loaded');
     });
-    getEth(10);
-    getEthCinco(5);
+
 </script>
 
 

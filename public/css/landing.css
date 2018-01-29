@@ -6,8 +6,12 @@
      -webkit-animation: Gradient 15s ease infinite;
      -moz-animation: Gradient 15s ease infinite;
      animation: Gradient 15s ease infinite;
+
  }
 
+ body{
+     overflow-x: hidden;
+ }
  td, tr, th {
      text-align: center;
  }
@@ -87,7 +91,7 @@
 .action-button
 {
     position: relative;
-    padding: 5px 13px;
+    padding: 5px 9px;
     margin: 0px 10px 10px 0px;
     border-radius: 5px;
     font-family: 'Open Sans', sans-serif;
@@ -99,7 +103,7 @@
 .blue
 {
     background-color: #f0f4f7;
-    border-bottom: 5px solid #b9b9b9;
+    border-bottom: 3px solid #b9b9b9;
     font-weight: 700;
     color: #000000;
     font-size: 0.9em;
@@ -107,10 +111,11 @@
 
 .action-button:active
 {
-    transform: translate(0px,5px);
+    transform: translate(2px,5px);
     -webkit-transform: translate(0px,5px);
-    border-bottom: 3px solid #272727;
-    padding: 7px 20px;
+    border-bottom: 6px solid #b9b9b9;
+    padding: 5px 12px;
+
 }
 .particles-js-canvas-el{position: absolute}
 
@@ -204,5 +209,15 @@
      .action-button{
          position: relative;
          top: 86px;
+     }
+
+     .destGanho {
+         font-size: 1em!important;
+         color: #28a745;
+         font-weight: bold;
+     }
+
+     .table{
+         margin-left: -12px;
      }
  }
