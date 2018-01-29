@@ -1,12 +1,10 @@
  html, body {
-     height: 1vh;
      margin: 0;
      background: linear-gradient(-45deg, #000000, #011e20, #212c31, #000000);
      background-size: 400% 400%;
      -webkit-animation: Gradient 15s ease infinite;
      -moz-animation: Gradient 15s ease infinite;
      animation: Gradient 15s ease infinite;
-
  }
 
  body{
@@ -161,6 +159,78 @@
      border-top: 1px solid #000c0c0a!important;
  }
 
+ .card-price{
+     padding: 26px 9px;
+     margin-left: 46px;
+     box-shadow: -2px 1px 12px rgba(0, 0, 3, 0.2);
+     margin-bottom: 30px;
+     margin-top: 10px;
+ }
+
+ .text-grs{
+     color: #0c1012c9!important;
+ }
+
+ .text-gold{
+     color: #E49006;
+ }
+
+ .platinum{color: #848e86!important
+ }
+
+ .ribbon {
+     position: absolute;
+     right: -5px; top: -5px;
+     z-index: 1;
+     overflow: hidden;
+     width: 75px; height: 75px;
+     text-align: right;
+ }
+ .ribbon span {
+     font-size: 10px;
+     font-weight: bold;
+     color: #FFF;
+     text-transform: uppercase;
+     text-align: center;
+     line-height: 20px;
+     transform: rotate(45deg);
+     -webkit-transform: rotate(45deg);
+     width: 100px;
+     display: block;
+     background: #79A70A;
+     background: linear-gradient(#2989d8 0%, #1e5799 100%);
+     box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+     position: absolute;
+     top: 19px; right: -21px;
+ }
+ .ribbon span::before {
+     content: "";
+     position: absolute; left: 0px; top: 100%;
+     z-index: -1;
+     border-left: 3px solid #1e5799;
+     border-right: 3px solid transparent;
+     border-bottom: 3px solid transparent;
+     border-top: 3px solid #1e5799;
+ }
+ .ribbon span::after {
+     content: "";
+     position: absolute; right: 0px; top: 100%;
+     z-index: -1;
+     border-left: 3px solid transparent;
+     border-right: 3px solid #1e5799;
+     border-bottom: 3px solid transparent;
+     border-top: 3px solid #1e5799;
+ }
+
+ .question{
+     padding: 0px;
+     font-size: 1.2em;
+     position: relative;
+     cursor: pointer;
+ }
+
+ .js div#preloader { position: fixed; left: 0; top: 0; z-index: 999; width: 100%; height: 100%; overflow: visible; background: #333 url('http://files.mimoymima.com/images/loading.gif') no-repeat center center; }
+
 
 
  @media (max-width: 980px){
@@ -184,6 +254,15 @@
      .action-button{
          position: relative;
          top: 86px;
+     }
+
+     .card-price {
+         padding: 13px 4px;
+         margin-left: 16px;
+         box-shadow: -2px 1px 12px rgba(0, 0, 3, 0.2);
+         margin-bottom: 0px;
+         margin-top: 10px;
+         margin-right: 17px;
      }
  }
 
