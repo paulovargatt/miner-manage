@@ -51,11 +51,11 @@
             <p class="opens bold" style="margin-top: 5px;font-size: 0.9em;"> Invista R$: 8.800</p>
             <p class="opens bold" style="margin-top: -16px;font-size: 0.9em;"> Ganhe:
                 <span id="twoYear_ganho_br_span"></span></p>
-            <a class="btn btn-success" mp-mode="dftl"
+            <button disabled class="btn btn-success" mp-mode="dftl"
                href="https://www.mercadopago.com/mlb/checkout/start?pref_id=35797019-a4843026-ffa2-4ace-8c1e-57a910eca489"
                name="MP-payButton" class='blue-ar-l-rn-none' style="z-index: 9; position: relative"><i
                         class="fa fa-shopping-cart" aria-hidden="true"></i>
-                Contratar</a>
+                Em Breve</button>
             <br>
             <small>Em até 10x</small>
             <br>
@@ -108,11 +108,11 @@
             <p class="opens bold" style="margin-top: 5px"> Invista R$:990,00</p>
             <p class="opens bold" style="margin-top: -16px;font-size: 0.9em;"> Ganhe:
                 <span id="twoYear_ganho_br_spanDez"></span></p>
-            <a mp-mode="dftl"
+            <button disabled mp-mode="dftl"
                href="https://www.mercadopago.com/mlb/checkout/start?pref_id=35797019-363bef74-08d6-406d-8a73-e8d76a04516a"
                name="MP-payButton" class="btn btn-success" style="z-index: 9; position: relative"><i
                         class="fa fa-shopping-cart" aria-hidden="true"></i>
-                Contratar</a>
+                Em Breve</button> 
             <br>
             <small>Em até 10x</small>
             <br>
@@ -166,11 +166,11 @@
             <p class="opens bold" style="margin-top: 5px"> Invista apenas R$:109,90</p>
             <p class="opens bold" style="margin-top: -16px;font-size: 0.9em;"> Ganhe:
                 <span id="twoYear_ganho_br_spanUm"></span></p>
-            <a mp-mode="dftl"
+            <button disabled mp-mode="dftl"
                href="https://www.mercadopago.com/mlb/checkout/start?pref_id=35797019-dc8eda65-f9b8-41d5-901f-10b0aa7ad093"
                name="MP-payButton" class="btn btn-success" style="z-index: 9; position: relative"><i
                         class="fa fa-shopping-cart" aria-hidden="true"></i>
-                Contratar</a>
+                Em Breve</button>
             <br>
             <small>Em até 10x</small>
             <br>
@@ -248,7 +248,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <strong>Porque devo contratar? </strong>
+                <strong>Porque devo Contratar? </strong>
                 <p>Você irá entrar para o mundo das criptomoedas sem precisar se preocupar com
                     hardware, configurações e manutenções geradas pela atividade de minerar.</p>
                 <strong>Acompanhe seu progresso com uma interface simples</strong>
