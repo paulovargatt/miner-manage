@@ -217,7 +217,7 @@
     <h2 class="text-center">Porque a GRS Miners ?</h2>
     <div class="text-center">
         <p class="lead" style="width: 70%;margin: 0 auto;"> Tenha a experiência de minerar online, não se preocupe com
-        configurações, máquinas barulhentas na sua caso que precisam de espaço e refrigeração intensa.
+        configurações, máquinas barulhentas em sua casa que precisam de espaço e refrigeração intensa.
         </p>
 
         <br>
@@ -273,14 +273,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="js/lp.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script>
+    <script type="text/javascript">
         /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
         particlesJS.load('particles-js', '/particles.json', function () {
             console.log('callback - particles.js config loaded');
         });
 
 
-        (function () {
+        /*(function () {
             function $MPC_load() {
                 window.$MPC_loaded !== true && (function () {
                     var s = document.createElement("script");
@@ -294,11 +294,8 @@
             }
 
             window.$MPC_loaded !== true ? (window.attachEvent ? window.attachEvent('onload', $MPC_load) : window.addEventListener('load', $MPC_load, false)) : null;
-        })();
-    </script>
+        })();*/
 
-    <!--Start of Tawk.to Script-->
-    <script type="text/javascript">
         var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
         (function(){
             var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
@@ -308,7 +305,6 @@
             s1.setAttribute('crossorigin','*');
             s0.parentNode.insertBefore(s1,s0);
         })();
-
     </script>
 
 </body>
