@@ -128,13 +128,14 @@ return [
                     'icon' => 'edit',
                     'icon_color' => 'gold-color',
                 ],
-                [
-                    'text' => 'Ver Todos',
-                    'url'  => 'cliente/todos',
-                    'icon' => 'edit',
-                    'icon_color' => 'gold-color',
-                ],
             ]
+        ],
+        [
+            'text' => 'Clientes Mineração',
+            'url'  => 'cliente/todos',
+            'icon' => 'btc',
+            'icon_color' => 'gold-color',
+            'can' => 'admin',
         ],
         [
             'text' => 'Clientes Internet',
