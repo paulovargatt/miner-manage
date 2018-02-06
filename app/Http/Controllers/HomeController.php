@@ -31,6 +31,7 @@ class HomeController extends Controller
     public function index()
     {
        $clientes = Clientes::join('moedas','moedas.id','=','clientes.coin_id')
+        ->where('coin_id', '!=', 3)
         ->select('clientes.*','moedas.name as coin_name')
         ->paginate(16);
 
@@ -102,6 +103,16 @@ class HomeController extends Controller
                     ->get();
        $tot = $clientes->toJson();
         return $tot;
+    }
+
+    public function getClientesInternet(){
+
+        $clientes = Clientes::join('moedas','moedas.id','=','clientes.coin_id')
+            ->where('coin_id', '=', 3)
+            ->select('clientes.*','moedas.name as coin_name')
+            ->paginate(16);
+
+        return view('clientes.clientes-internet',compact('clientes'));
     }
 
 

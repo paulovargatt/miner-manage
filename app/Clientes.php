@@ -23,7 +23,11 @@ class Clientes extends Model
 
     public static function updateBalance($clienteId, $newBalance){
        $cli = Clientes::find($clienteId);
-       $cli->balance += $newBalance;
+           if($cli->coin_id != 3){
+                 $cli->balance += $newBalance;
+           }else{
+                $cli->balance -= $newBalance;
+           }
        $cli->save();
     }
 

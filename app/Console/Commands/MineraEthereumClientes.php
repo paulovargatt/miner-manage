@@ -65,7 +65,7 @@ class MineraEthereumClientes extends Command
                     $newSaldo = number_format($ganhoDia, 6, '.', ',');
                     Movimentacao::mineraCliente($clienteId, $newSaldo, $saldoAnterior, $powerCli);
                     Clientes::updateBalance($clienteId, $newSaldo);
-                }else {
+                }elseif ($calcCliente->coin_id == 2) {
                     $netHash = $jsonCash['nethash'];
                     $dificult = $jsonCash['difficulty'];
                     $dificult24 = $jsonCash['difficulty24'];
@@ -81,6 +81,15 @@ class MineraEthereumClientes extends Command
                     $powerCli = $calcCliente->power_miner;
                     $saldoAnterior = $calcCliente->balance;
                     $newSaldo = number_format($ganhoDia, 6, '.', ',');
+                    Movimentacao::mineraCliente($clienteId, $newSaldo, $saldoAnterior, $powerCli);
+                    Clientes::updateBalance($clienteId, $newSaldo);
+                }else{
+                    $clienteId = $calcCliente->id;
+                    $powerCli = $calcCliente->power_miner;
+                    $saldoAnterior = $calcCliente->balance;
+                    $calcSaldo = $powerCli / 30;
+
+                    $newSaldo = number_format($calcSaldo, 4, '.', ',');
                     Movimentacao::mineraCliente($clienteId, $newSaldo, $saldoAnterior, $powerCli);
                     Clientes::updateBalance($clienteId, $newSaldo);
                 }

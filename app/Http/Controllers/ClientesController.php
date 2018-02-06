@@ -104,6 +104,7 @@ class ClientesController extends Controller
     public function allClients()
     {
         $clientes = Clientes::join('moedas', 'moedas.id', '=', 'clientes.coin_id')
+            ->where('coin_id','!=',3)
             ->select('clientes.*', 'moedas.name as coin_name')
             ->paginate(16);
         return view('clientes.all-client', compact('clientes'));

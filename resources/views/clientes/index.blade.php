@@ -15,7 +15,7 @@
             <div class="info-box saldo">
                 <span class="info-box-icon bg-green"><i class="fa fa-usd"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Saldo</span>
+                    <span class="info-box-text">{{$cliente->coin_id != 3 ? 'SALDO' : 'Saldo em R$'}}</span>
                     <span class="info-box-number balance_ls @if($cliente->balance){{$cliente->balance < 0 ? 'text-red' : ''}}">{{$cliente->balance}}@endif </span>
                 </div>
                 <span title="Total Pago" class="totPago">{{$totalPago}}</span>
@@ -26,10 +26,21 @@
             <div class="info-box">
                 <span class="info-box-icon bg-blue"><i class="fa fa-tasks"></i></span>
                 <div class="info-box-content ">
-                    <span class="info-box-text">Poder de Mineração</span>
+                    <span class="info-box-text">
+                        {{$cliente->coin_id == 3 ? 'Valor Mensal' : 'Poder de Mineração' }}
+
+                    </span>
                     <span class="info-box-number minerpower">
                         <input class="input_power_miner" @can('user', Auth::user()->type) disabled @endcan
-                        value="{{$cliente->power_miner}}"> {{$cliente->coin_name == 'Ethereum' ? 'MH/s' : 'H/s'}}
+                        value="{{$cliente->power_miner}}">
+                        @if($cliente->coin_id == 1)
+                        {{'MH/s'}}
+                        @elseif($cliente->coin_id == 2)
+                        {{'H/s'}}
+                        @else
+                        {{'R$'}}
+                        @endif
+
                     </span>
                     <span title="Total Minerado" class="totMinerado">{{$totalMinerado}}</span>
                     <div class="cssload-tetrominos pull-right">
@@ -90,26 +101,28 @@
                 @cannot('user', Auth::user()->type)
                 <li style="width: 180px;margin: -8px;">
                     <div class="input-group margin">
-                        <input type="text" id="plus-saldo" class="form-control" value="0.000000">
+                        <input type="text" id="plus-saldo" class="form-control" value="">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-success btn-flat"
-                                    id="btn-plus-saldo">Adicionar</button>
+                       id="btn-plus-saldo">{{$cliente->coin_id == 3 ? 'Pagou' : 'Adicionar' }}</button>
                         </span>
                     </div>
                 </li>
                 <li style="width: 160px;margin: -8px 5px">
                     <div class="input-group margin">
-                        <input type="text" id="pagar" class="form-control" value="0.000000">
+                        <input type="text" id="pagar" class="form-control" value="">
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-warning btn-flat" id="btn-pagar">Pagar </button>
+                            <button type="button" class="btn btn-warning btn-flat" id="btn-pagar">{{$cliente->coin_id == 3 ? 'Taxa / Dia' : 'Pagar' }} </button>
                         </span>
                     </div>
                 </li>
                 @endcannot
                 <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true"><i class="fa fa-rss" aria-hidden="true"></i> Movimentações</a></li>
 
+                @if($cliente->coin_id != 3)
                 <li class=""><a href="#tab_4" data-toggle="tab" aria-expanded="false">
                         <i class="fa fa-usd" aria-hidden="true"></i> Previsão de Rendimentos</a></li>
+                @endif
 
             @cannot('user', Auth::user()->type)
                     <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">
@@ -270,10 +283,18 @@
         var datePlan = "{{$cliente->date_plan}}";
         var clienteId = "{{$cliente->id}}";
         this.saldoCli = "{{$cliente->balance}}";
-
+        this.coinId = "{{$cliente->coin_id}}";
         if (this.type == 10) {
-            $('#plus-saldo').mask('0.000000');
-            $('#pagar').mask('0.000000');
+
+            if(this.coinId == 3){
+                $('#pagar').mask('#.##0,00', {reverse: true});
+                $('#plus-saldo').mask('#.##0,00', {reverse: true});
+                $('.content-wrapper').css('background','#dbf0fd')
+            }else{
+                $('#pagar').mask('0.000000');
+                $('#plus-saldo').mask('0.000000');
+            }
+
             $('#datepicker').datepicker({
                 format: 'dd/mm/yyyy',
                 autoclose: true
@@ -396,13 +417,22 @@
 
 
             $(document).on('click', '#btn-plus-saldo', function () {
-                var valida = $('#plus-saldo').val().replace('.', '').length;
-                if (valida < 7) {
-                    toastr.warning('Digite um valor Válido, exemplo 0.000000');
+
+                if(coinId != 3){
+                    var valida = $('#plus-saldo').val().replace('.', '').length;
+                    if (valida < 7) {
+                        toastr.warning('Digite um valor Válido, exemplo 0.000000');
+                        return
+                    }
+                }
+
+                if($('#plus-saldo').val() == ''){
+                    toastr.warning('Digite algum valor');
                     return
                 }
 
                 var saldo = $('#plus-saldo').val();
+                saldo = saldo.replace(',','.');
                 $.ajax({
                     url: 'update-saldo-cliente/{{$cliente->id}}',
                     method: "POST",
@@ -433,37 +463,43 @@
 
             $(document).on('click', '#btn-pagar', function () {
 
-                var valida = $('#pagar').val().replace('.', '').length;
-                if (valida < 7 || $('#pagar').val().replace('.', '') == 0000000) {
-                    toastr.warning('Digite um valor Válido, exemplo 0.000000');
-                    return
+                if(coinId != 3){
+                    var valida = $('#pagar').val().replace('.', '').length;
+                    if (valida < 7 || $('#pagar').val().replace('.', '') == '0000000') {
+                        toastr.warning('Digite um valor Válido, exemplo 0.000000');
+                        return
+                    }
                 }
 
-                var pagar = $('#pagar').val();
-                $.ajax({
-                    url: 'update-saldo-cliente/{{$cliente->id}}',
-                    method: "POST",
-                    dataType: "JSON",
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                        "pagar": pagar
-                    },
-                    beforeSend: function () {
-                        $('#loader').fadeIn();
-                    },
-                    complete: function () {
-                        $('#loader').fadeOut();
-                        $('.balance_ls').load(' .balance_ls');
-                        var valor = parseInt($('.balance_ls').text());
-                        tot = valor - pagar;
-                        if (tot < 0) {
-                            $('.balance_ls').css('color', 'red')
-                        } else {
-                            $('.balance_ls').css('color', '#333333')
+
+
+
+                    var pagar = $('#pagar').val();
+                    pagar = pagar.replace(',','.');
+                    $.ajax({
+                        url: 'update-saldo-cliente/{{$cliente->id}}',
+                        method: "POST",
+                        dataType: "JSON",
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            "pagar": pagar
+                        },
+                        beforeSend: function () {
+                            $('#loader').fadeIn();
+                        },
+                        complete: function () {
+                            $('#loader').fadeOut();
+                            $('.balance_ls').load(' .balance_ls');
+                            var valor = parseInt($('.balance_ls').text());
+                            tot = valor - pagar;
+                            if (tot < 0) {
+                                $('.balance_ls').css('color', 'red')
+                            } else {
+                                $('.balance_ls').css('color', '#333333')
+                            }
+                            movimentoPagamento(saldoCli, pagar, clienteId);
                         }
-                        movimentoPagamento(saldoCli, pagar, clienteId);
-                    }
-                });
+                    });
             });
 
 
@@ -603,7 +639,7 @@
                             }
                         });
                     })();
-                } else {
+                }else if(this.MoedaMinerada === 2) {
                     (function MinerCalc() {
                         $.ajax({
                             type: 'GET',
@@ -637,6 +673,12 @@
                             }
                         });
                     })();
+                }else{
+                   var plano = parseFloat(poweMiner);
+                   var calc = plano / 30;
+                   var saldoAtual = $('.balance_ls').text();
+
+                   $('#pagar').val(calc.toFixed(3));
                 }
 
     </script>

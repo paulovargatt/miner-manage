@@ -136,6 +136,13 @@ return [
                 ],
             ]
         ],
+        [
+            'text' => 'Clientes Internet',
+            'icon' => 'globe',
+            'icon_color' => 'gold-color',
+            'url'  => '/clientes/internet',
+            'can' => 'admin',
+        ],
         'Conta',
         [
             'text' => 'Meus Dados',
