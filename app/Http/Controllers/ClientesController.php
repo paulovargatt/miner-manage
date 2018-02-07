@@ -166,7 +166,23 @@ class ClientesController extends Controller
             'msg' => 'Cliente Deletado com sucesso!'
         );
         return response()->json($ret);
+    }
 
+    public function filtraDevedoresInternet(){
+        $clientes = Clientes::where('coin_id','=', '3')
+                              ->where('balance', '<', 0)
+                                ->join('moedas', 'moedas.id', '=', 'clientes.coin_id')
+                                ->select('clientes.*', 'moedas.name as coin_name')
+                              ->get();
+        return view('clientes.ajax.devedores', compact('clientes'));
+    }
+
+    public function filtraTodosInternet(){
+        $clientes = Clientes::where('coin_id','=', '3')
+                              ->join('moedas', 'moedas.id', '=', 'clientes.coin_id')
+                              ->select('clientes.*', 'moedas.name as coin_name')
+                              ->get();
+        return view('clientes.ajax.devedores', compact('clientes'));
     }
 
 

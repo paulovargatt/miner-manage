@@ -87,7 +87,17 @@ class MineraEthereumClientes extends Command
                     $clienteId = $calcCliente->id;
                     $powerCli = $calcCliente->power_miner;
                     $saldoAnterior = $calcCliente->balance;
-                    $calcSaldo = $powerCli / 30;
+                    if($calcCliente->balance < 0){
+                        $plano = $powerCli ;
+                        $percent = 0.5;
+                        $calc = $plano / 30;
+                        $calcJuros = $plano * (1+($percent/100));
+                        $updateJuros = $calcJuros - $plano;
+                        $calcSaldo = $calc += $updateJuros;
+
+                    }else{
+                        $calcSaldo = $powerCli / 30;
+                    }
 
                     $newSaldo = number_format($calcSaldo, 4, '.', ',');
                     Movimentacao::mineraCliente($clienteId, $newSaldo, $saldoAnterior, $powerCli);

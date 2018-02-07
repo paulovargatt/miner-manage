@@ -31,6 +31,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/cliente/update-user-cliente/{id}', 'ClientesController@updateUserCliente')->middleware('can:admin');
 
     Route::get('/clientes/internet', 'HomeController@getClientesInternet')->middleware('can:admin');
+    Route::get('/clientes/internet/devedores', 'ClientesController@filtraDevedoresInternet')->middleware('can:admin');
+    Route::get('/clientes/internet/todos', 'ClientesController@filtraTodosInternet')->middleware('can:admin');
 
     Route::get('/nova-senha', 'HomeController@novaSenha');
     Route::post('/update-senha', 'HomeController@updateSenha');
