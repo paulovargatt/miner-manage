@@ -33,6 +33,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/clientes/internet', 'HomeController@getClientesInternet')->middleware('can:admin');
     Route::get('/clientes/internet/devedores', 'ClientesController@filtraDevedoresInternet')->middleware('can:admin');
     Route::get('/clientes/internet/todos', 'ClientesController@filtraTodosInternet')->middleware('can:admin');
+    Route::get('/clientes/internet/search', 'ClientesController@searchClientesInternet')->middleware('can:admin');
+    Route::get('/clientes/internet/estatisticas', 'ClientesController@estatisticasClientesInternet')->middleware('can:admin');
 
     Route::get('/nova-senha', 'HomeController@novaSenha');
     Route::post('/update-senha', 'HomeController@updateSenha');

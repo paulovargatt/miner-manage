@@ -47,7 +47,7 @@ class ClientesController extends Controller
         //dd($users);
 
         return view('clientes.index', compact('cliente',
-            'coin', 'totalPago', 'totalMinerado','users'));
+            'coin', 'totalPago', 'totalMinerado', 'users'));
     }
 
 
@@ -104,7 +104,7 @@ class ClientesController extends Controller
     public function allClients()
     {
         $clientes = Clientes::join('moedas', 'moedas.id', '=', 'clientes.coin_id')
-            ->where('coin_id','!=',3)
+            ->where('coin_id', '!=', 3)
             ->select('clientes.*', 'moedas.name as coin_name')
             ->paginate(16);
         return view('clientes.all-client', compact('clientes'));
@@ -149,7 +149,7 @@ class ClientesController extends Controller
         $user->name = $request->get('name');
         $user->email = $request->get('email');
         if ($request->get('password') != '')
-           $user->password  = bcrypt($request->get('password'));
+            $user->password = bcrypt($request->get('password'));
         $user->save();
 
         $ret = array('status' => 'success',
@@ -157,7 +157,8 @@ class ClientesController extends Controller
         return response()->json($ret);
     }
 
-    public function delete(Request $request) {
+    public function delete(Request $request)
+    {
         $IdCli = $request->get('clientId');
         $clientes = Clientes::find($IdCli);
         $clientes->delete();
@@ -168,21 +169,81 @@ class ClientesController extends Controller
         return response()->json($ret);
     }
 
-    public function filtraDevedoresInternet(){
-        $clientes = Clientes::where('coin_id','=', '3')
-                              ->where('balance', '<', 0)
-                                ->join('moedas', 'moedas.id', '=', 'clientes.coin_id')
-                                ->select('clientes.*', 'moedas.name as coin_name')
-                              ->get();
+    public function filtraDevedoresInternet()
+    {
+        $clientes = Clientes::where('coin_id', '=', '3')
+            ->where('balance', '<', 0)
+            ->join('moedas', 'moedas.id', '=', 'clientes.coin_id')
+            ->select('clientes.*', 'moedas.name as coin_name')
+            ->get();
         return view('clientes.ajax.devedores', compact('clientes'));
     }
 
-    public function filtraTodosInternet(){
-        $clientes = Clientes::where('coin_id','=', '3')
-                              ->join('moedas', 'moedas.id', '=', 'clientes.coin_id')
-                              ->select('clientes.*', 'moedas.name as coin_name')
-                              ->get();
+    public function filtraTodosInternet()
+    {
+        $clientes = Clientes::where('coin_id', '=', '3')
+            ->where('balance', '>', 0)
+            ->join('moedas', 'moedas.id', '=', 'clientes.coin_id')
+            ->select('clientes.*', 'moedas.name as coin_name')
+            ->get();
         return view('clientes.ajax.devedores', compact('clientes'));
+    }
+
+    public function searchClientesInternet(Request $request)
+    {
+        $search = $request->get('search');
+        $clientes = Clientes::where('coin_id', '=', '3')
+            ->where('clientes.name', 'LIKE', '%' . $search . '%')
+            ->join('moedas', 'moedas.id', '=', 'clientes.coin_id')
+            ->select('clientes.*', 'moedas.name as coin_name')
+            ->get();
+        return view('clientes.ajax.devedores', compact('clientes'));
+    }
+
+    public function estatisticasClientesInternet()
+    {
+
+        $clientesEmAtraso = Clientes::where('coin_id', '=', '3')
+            ->where('balance', '<', 0)
+            ->select('balance')
+            ->get();
+
+        $valorDevido = Clientes::where('coin_id', '=', '3')
+            ->where('balance', '<', 0)
+            ->select('balance')
+            ->get();
+
+        $devido = 0;
+        foreach ($valorDevido as $key=>$value){
+            $devido += $value->balance;
+        }
+        $devido = number_format($devido,2, ',', '.');
+
+        $totalClientes =  Clientes::where('coin_id', '=', '3')
+            ->select('name')
+            ->get();
+
+        $valorTotalClientes = Clientes::where('coin_id', '=', '3')
+            ->select('power_miner')
+            ->get();
+
+        $valorTotal = 0;
+        foreach ($valorTotalClientes as $key=>$value){
+            $valorTotal += $value->power_miner;
+        }
+        $valorTotal = number_format($valorTotal,2, ',', '.');
+
+
+        $tableList = Clientes::where('coin_id', '=', '3')
+            ->select('power_miner','name','balance','id')
+            ->orderBy('balance','asc')
+            ->limit('10')
+            ->get();
+
+
+        return view('clientes.ajax.informacoes',
+            compact('clientesEmAtraso','devido', 'totalClientes', 'valorTotal','tableList'));
+
     }
 
 

@@ -22,7 +22,7 @@
             </div>
         </div>
         @empty
-        <h3>Sem clientes no momento...</h3>
+        <h3 style="margin-left: 15px"> Sem clientes no momento...</h3>
     @endforelse
 
     <div class="clear-fix"></div>
