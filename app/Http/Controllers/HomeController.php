@@ -110,7 +110,7 @@ class HomeController extends Controller
         $clientes = Clientes::join('moedas','moedas.id','=','clientes.coin_id')
             ->where('coin_id', '=', 3)
             ->select('clientes.*','moedas.name as coin_name')
-            ->paginate(3);
+            ->paginate(20);
         $clientes->setPath('');
         return view('clientes.clientes-internet',compact('clientes'));
     }
