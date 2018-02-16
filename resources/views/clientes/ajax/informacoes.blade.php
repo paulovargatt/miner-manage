@@ -47,7 +47,7 @@
             </div>
         </div>
 
-        <h3 class="text-center">TOP Devedores</h3>
+        <h3 class="text-center">TOP #10 Calots</h3>
         <div class="col-md-8">
             <div class="box-body">
                 <div class="table-responsive">

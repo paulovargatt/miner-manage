@@ -56,13 +56,14 @@
         @empty
             <h3>Sem clientes no momento...</h3>
         @endforelse
+            {{ $clientes->links() }}
 
     </div>
 
 
 
     <div class="clear-fix"></div>
-    {{ $clientes->links() }}
+
 @stop
 
 @section('scripts')
